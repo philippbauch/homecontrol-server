@@ -31,7 +31,7 @@ services:
       DB_PASSWORD: "home"
       DB_PORT: "27017" # same as the mongodb service port
       DB_USER: "home"
-    image: homecontrol-api:latest
+    image: philippbauch/homecontrol-server:latest
     networks:
       - backend
     ports:
