@@ -1,3 +1,4 @@
 **/*.log
+certs
 logs
 node_modules

@@ -8,7 +8,7 @@ version: "3.7"
 
 services:
   mongodb:
-    container_name: home_mongodb_${GIT_BRANCH}
+    container_name: homecontrol_mongodb_${GIT_BRANCH}
     environment:
       MONGO_INITDB_ROOT_USERNAME: "home"
       MONGO_INITDB_ROOT_PASSWORD: "home"
@@ -22,9 +22,8 @@ services:
     volumes:
       - data:/data/db
   server:
-    build: .
     command: ["npm", "run", "develop"]
-    container_name: home_server_${GIT_BRANCH}
+    container_name: homecontrol_server_${GIT_BRANCH}
     depends_on:
       - mongodb
     environment:
@@ -33,13 +32,14 @@ services:
       DB_PASSWORD: "home"
       DB_PORT: "27017" # same as the mongodb service port
       DB_USER: "home"
-    image: home-server:${GIT_BRANCH}
+    image: homecontrol_server:${GIT_BRANCH}
     networks:
       - backend
     ports:
       - "8080:8000"
     restart: always
     volumes:
+      - ./certs:/home/certs
       - ./src:/home/src
 
 networks:

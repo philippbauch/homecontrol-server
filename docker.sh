@@ -25,7 +25,7 @@ export GIT_BRANCH
 if [[ "$1" == "start" ]]; then
 
     echo "Running Docker Compose for branch ${GIT_BRANCH}"
-    docker-compose -f docker-compose.dev.yml up -d --build
+    docker-compose -f docker-compose.dev.yml up -d
 
 elif [[ "$1" == "stop" ]]; then
 
@@ -34,6 +34,6 @@ elif [[ "$1" == "stop" ]]; then
 
 elif [[ "$1" == "logs" ]]; then
 
-    docker logs -f home_server_${GIT_BRANCH}
+    docker logs -f homecontrol_server_${GIT_BRANCH}
 
 fi
