@@ -1,0 +1,51 @@
+# This Docker Compose configuration file is set up to provide a convenient way
+# to *develop* the application in an isolated environment.
+#
+# This configuration should not be used in production.
+# Use docker-compose.yml instead.
+
+version: "3.7"
+
+services:
+  mongodb:
+    container_name: home_mongodb_${GIT_BRANCH}
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "home"
+      MONGO_INITDB_ROOT_PASSWORD: "home"
+      MONGO_INITDB_DATABASE: "home"
+    image: mongo:4.2.2
+    networks:
+      - backend
+    ports:
+      - "27017:27017"
+    restart: always
+    volumes:
+      - data:/data/db
+  server:
+    build: .
+    command: ["npm", "run", "develop"]
+    container_name: home_server_${GIT_BRANCH}
+    depends_on:
+      - mongodb
+    environment:
+      DB_HOST: "mongodb" # same as the mongodb service name
+      DB_NAME: "home"
+      DB_PASSWORD: "home"
+      DB_PORT: "27017" # same as the mongodb service port
+      DB_USER: "home"
+    image: home-server:${GIT_BRANCH}
+    networks:
+      - backend
+    ports:
+      - "8080:8000"
+    restart: always
+    volumes:
+      - ./src:/home/src
+
+networks:
+  backend:
+    name: home-backend
+
+volumes:
+  data:
+    name: home-data
