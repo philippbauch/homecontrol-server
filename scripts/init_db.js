@@ -12,7 +12,7 @@ const URL = `mongodb://${DB_HOST}:27017`;
 const SALT_ROUNDS = 12;
 
 const identifier = "admin";
-const password = "admin";
+const password = "adminadmin";
 
 (async function() {
   await db.connect(URL, DB_NAME, {
