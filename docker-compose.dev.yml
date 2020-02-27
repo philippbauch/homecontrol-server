@@ -39,7 +39,6 @@ services:
       - "8080:8000"
     restart: always
     volumes:
-      - ./certs:/home/certs
       - ./src:/home/src
 
 networks:
