@@ -23,8 +23,8 @@ const URL = `mongodb://${DB_HOST}:27017`;
   const adminUsers = await db.users.find({ admin: true }).toArray();
 
   if (!adminUsers.length) {
-    logger.info("No administrative users found.");
-    logger.info("Create default administrative user.");
+    logger.info("No administrative users found");
+    logger.info("Create default administrative user");
 
     const identifier = "admin";
     const password = "admin";
@@ -44,6 +44,6 @@ const URL = `mongodb://${DB_HOST}:27017`;
   }
 
   app.listen(PORT, () => {
-    logger.info(`Server listening on port ${PORT}...`);
+    logger.info(`Server listening on port ${PORT}`);
   });
 })();

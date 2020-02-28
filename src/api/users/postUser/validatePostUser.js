@@ -2,6 +2,7 @@ const {
   MISSING_REQUIRED_FIELD,
   PASSWORD_TOO_SHORT
 } = require("../../../errors");
+const { isAlphanumeric } = require("../../../utils");
 
 const CONTEXT = "validate_post_user";
 
@@ -10,6 +11,11 @@ function validatePostUser(req, res, next) {
 
   if (!identifier) {
     res.failure(MISSING_REQUIRED_FIELD("identifier", CONTEXT));
+    return;
+  }
+
+  if (!isAlphanumeric(identifier)) {
+    res.failure("Identifier contains invalid characters.");
     return;
   }
 
