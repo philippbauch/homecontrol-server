@@ -10,6 +10,14 @@ class DatabaseManager {
     return this.db.collection("devices");
   }
 
+  get homes() {
+    if (!this.db) {
+      throw new Error("No connection to the database");
+    }
+
+    return this.db.collection("homes");
+  }
+
   get rooms() {
     if (!this.db) {
       throw new Error("No connection to the database");
