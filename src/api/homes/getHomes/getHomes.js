@@ -1,5 +1,4 @@
 const { db } = require("../../../db");
-const { INTERNAL_ERROR } = require("../../../errors");
 
 const CONTEXT = "get_homes";
 
@@ -11,7 +10,7 @@ async function getHomes(req, res) {
 
     return res.success(homes);
   } catch (error) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 }
 

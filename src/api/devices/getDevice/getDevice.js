@@ -1,5 +1,4 @@
 const { db } = require("../../../db");
-const { INTERNAL_ERROR } = require("../../../errors");
 
 const CONTEXT = "get_device";
 
@@ -10,12 +9,12 @@ async function getDevice(req, res) {
     let device = await db.devices.findOne({ _id });
 
     if (!device) {
-      return res.failure("Device does not exist.");
+      return res.error.deviceDoesntExist(CONTEXT);
     } else {
       return res.success(device);
     }
   } catch (error) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 }
 

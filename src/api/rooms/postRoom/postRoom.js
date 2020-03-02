@@ -1,5 +1,4 @@
 const { db } = require("../../../db");
-const { INTERNAL_ERROR } = require("../../../errors");
 
 const CONTEXT = "post_room";
 
@@ -11,10 +10,10 @@ async function postRoom(req, res) {
     const existingRoom = await db.rooms.findOne({ name, userId });
 
     if (existingRoom) {
-      return res.failure("A room with this name already exists.");
+      return res.error.roomAlreadyExists(CONTEXT);
     }
   } catch (error) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 
   try {
@@ -25,7 +24,7 @@ async function postRoom(req, res) {
 
     res.success({ _id });
   } catch (error) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 }
 

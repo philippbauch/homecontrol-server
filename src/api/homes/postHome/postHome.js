@@ -1,5 +1,4 @@
 const { db } = require("../../../db");
-const { INTERNAL_ERROR } = require("../../../errors");
 
 const CONTEXT = "post_home";
 
@@ -11,10 +10,10 @@ async function postHome(req, res) {
     const existingHome = await db.homes.findOne({ name, userId });
 
     if (existingHome) {
-      return res.failure("A home with this name already exists.");
+      return res.error.homeAlreadyExists(CONTEXT);
     }
   } catch (error) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 
   try {
@@ -25,7 +24,7 @@ async function postHome(req, res) {
 
     res.success({ _id });
   } catch (error) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 }
 

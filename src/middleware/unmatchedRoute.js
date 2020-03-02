@@ -1,7 +1,7 @@
-const { UNMATCHED_ROUTE } = require("../errors");
+const CONTEXT = "unmatched_route";
 
 const unmatchedRoute = (req, res) => {
-  res.failure(UNMATCHED_ROUTE);
+  res.error.unmatchedRoute(CONTEXT);
 };
 
 module.exports = { unmatchedRoute };

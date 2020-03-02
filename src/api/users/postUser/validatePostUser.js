@@ -1,7 +1,3 @@
-const {
-  MISSING_REQUIRED_FIELD,
-  PASSWORD_TOO_SHORT
-} = require("../../../errors");
 const { isAlphanumeric } = require("../../../utils");
 
 const CONTEXT = "validate_post_user";
@@ -10,22 +6,22 @@ function validatePostUser(req, res, next) {
   const { identifier, password } = req.body;
 
   if (!identifier) {
-    res.failure(MISSING_REQUIRED_FIELD("identifier", CONTEXT));
+    res.error.missingRequiredField(CONTEXT, "identifier");
     return;
   }
 
   if (!isAlphanumeric(identifier)) {
-    res.failure("Identifier contains invalid characters.");
+    res.error.invalidIdentifier(CONTEXT);
     return;
   }
 
   if (!password) {
-    res.failure(MISSING_REQUIRED_FIELD("password", CONTEXT));
+    res.error.missingRequiredField(CONTEXT, "password");
     return;
   }
 
   if (password.length < 8) {
-    res.failure(PASSWORD_TOO_SHORT);
+    res.error.passwordTooShort(CONTEXT);
     return;
   }
 

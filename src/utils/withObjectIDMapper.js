@@ -1,5 +1,4 @@
 const { ObjectID } = require("mongodb");
-const { INVALID_OBJECT_ID } = require("../errors");
 
 const CONTEXT = "map_params_to_object_id";
 
@@ -18,7 +17,7 @@ function mapObjectIDs(req, res, next) {
     }
 
     if (!ObjectID.isValid(value)) {
-      return res.failure(INVALID_OBJECT_ID(CONTEXT));
+      return res.error.invalidObjectId(CONTEXT);
     }
 
     const _id = ObjectID.createFromHexString(value);

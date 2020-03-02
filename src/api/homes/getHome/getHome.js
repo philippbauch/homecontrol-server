@@ -1,5 +1,4 @@
 const { db } = require("../../../db");
-const { INTERNAL_ERROR } = require("../../../errors");
 
 const CONTEXT = "get_home";
 
@@ -11,14 +10,14 @@ async function getHome(req, res) {
     let home = await db.homes.findOne({ _id });
 
     if (!home) {
-      return res.failure("Home does not exist.");
+      return res.error.homeDoesntExist(CONTEXT);
     } else if (!home.userId.equals(userId)) {
-      return res.failure("Permission denied.");
+      return res.error.permissionDenied(CONTEXT);
     } else {
       return res.success(home);
     }
   } catch (error) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 }
 

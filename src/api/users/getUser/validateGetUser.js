@@ -1,12 +1,10 @@
-const { MISSING_PARAM } = require("../../../errors");
-
 const CONTEXT = "validate_get_user";
 
 function validateGetUser(req, res, next) {
   const { userId } = req.params;
 
   if (!userId) {
-    return res.failure(MISSING_PARAM("userId", CONTEXT));
+    return res.error.missingParam(CONTEXT, "userId");
   }
 
   req.getUser = {

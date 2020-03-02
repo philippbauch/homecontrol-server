@@ -17,6 +17,4 @@ describe("middleware/permitAdmin", () => {
     expect(res.failure).not.toHaveBeenCalled();
     expect(next).toHaveBeenCalled();
   });
-
-  test("denies non-admin", () => {});
 });

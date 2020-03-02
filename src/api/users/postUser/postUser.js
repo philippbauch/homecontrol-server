@@ -1,6 +1,5 @@
 const bcrypt = require("bcrypt");
 const { db } = require("../../../db");
-const { INTERNAL_ERROR, USER_ALREADY_EXISTS } = require("../../../errors");
 
 const CONTEXT = "post_user";
 
@@ -13,10 +12,10 @@ async function postUser(req, res) {
     const existingUser = await db.users.findOne({ identifier });
 
     if (existingUser) {
-      return res.failure(USER_ALREADY_EXISTS);
+      return res.error.userAlreadyExists(CONTEXT);
     }
   } catch (error) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 
   let hash;
@@ -24,7 +23,7 @@ async function postUser(req, res) {
   try {
     hash = await bcrypt.hash(password, SALT_ROUNDS);
   } catch (error) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 
   const isAdmin = false;
@@ -40,7 +39,7 @@ async function postUser(req, res) {
 
     res.success({ _id });
   } catch (error) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 }
 

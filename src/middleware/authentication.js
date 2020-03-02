@@ -1,9 +1,4 @@
 const jwt = require("jsonwebtoken");
-const {
-  INVALID_PAYLOAD_TYPE,
-  INVALID_TOKEN,
-  MISSING_HEADER
-} = require("../errors");
 const { isObject } = require("../utils");
 
 const CONTEXT = "authentication";
@@ -22,7 +17,7 @@ async function authentication(req, res, next) {
   const { authentication } = req.headers;
 
   if (!authentication) {
-    return res.failure(MISSING_HEADER("authentication", CONTEXT));
+    return res.error.missingHeader(CONTEXT, "authentication");
   }
 
   let payload;
@@ -30,15 +25,15 @@ async function authentication(req, res, next) {
   try {
     payload = await jwt.verify(authentication, "secret");
   } catch (error) {
-    return res.failure(INVALID_TOKEN);
+    return res.error.invalidToken(CONTEXT);
   }
 
   if (!isObject(payload)) {
-    return res.failure(INVALID_PAYLOAD_TYPE(CONTEXT));
+    return res.error.invalidPayloadType(CONTEXT);
   }
 
   if (!payload.user || !payload.user._id) {
-    return res.failure(INVALID_TOKEN);
+    return res.error.invalidToken(CONTEXT);
   }
 
   req.auth = {

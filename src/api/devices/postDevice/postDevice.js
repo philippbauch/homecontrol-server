@@ -1,5 +1,4 @@
 const { db } = require("../../../db");
-const { INTERNAL_ERROR } = require("../../../errors");
 
 const CONTEXT = "post_device";
 
@@ -10,10 +9,10 @@ async function postDevice(req, res) {
     const existingDevice = await db.devices.findOne({ name });
 
     if (existingDevice) {
-      return res.failure("A device with this name already exists.");
+      return res.error.deviceAlreadyExists(CONTEXT);
     }
   } catch (error) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 
   const apiKey = null;
@@ -26,7 +25,7 @@ async function postDevice(req, res) {
 
     res.success({ _id });
   } catch (error) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 }
 

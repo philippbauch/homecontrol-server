@@ -1,5 +1,4 @@
 const { db } = require("../../../db");
-const { INTERNAL_ERROR, USER_DOESNT_EXIST } = require("../../../errors");
 
 const CONTEXT = "get_user";
 
@@ -10,12 +9,12 @@ async function getUser(req, res) {
     let user = await db.users.findOne({ _id }, { projection: { hash: 0 } });
 
     if (!user) {
-      return res.failure(USER_DOESNT_EXIST(CONTEXT));
+      return res.error.userDoesntExist(CONTEXT);
     } else {
       return res.success(user);
     }
   } catch (error) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 }
 

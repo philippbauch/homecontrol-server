@@ -1,10 +1,5 @@
 const { ObjectID } = require("mongodb");
 const { db } = require("../db");
-const {
-  INTERNAL_ERROR,
-  INVALID_OBJECT_ID,
-  UNKNOWN_AUTH_ENTITY
-} = require("../errors");
 
 const CONTEXT = "identification";
 
@@ -20,17 +15,17 @@ const CONTEXT = "identification";
  */
 async function identification(req, res, next) {
   if (!req.auth) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 
   let { userId } = req.auth;
 
   if (!userId) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 
   if (!ObjectID.isValid(userId)) {
-    return res.failure(INVALID_OBJECT_ID(CONTEXT));
+    return res.error.invalidObjectId(CONTEXT);
   }
 
   const _id = ObjectID.createFromHexString(userId);
@@ -41,10 +36,10 @@ async function identification(req, res, next) {
     user = await db.users.findOne({ _id }, { projection: { hash: 0 } });
 
     if (!user) {
-      return res.failure(UNKNOWN_AUTH_ENTITY);
+      return res.error.unknownUser(CONTEXT);
     }
   } catch (error) {
-    return res.failure(INTERNAL_ERROR(CONTEXT));
+    return res.error.internalError(CONTEXT);
   }
 
   delete req.auth;

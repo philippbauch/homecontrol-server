@@ -1,9 +1,14 @@
 const {
+  DeviceAlreadyExistsError,
+  DeviceDoesntExistError,
   ExpiredTimestampError,
   FutureTimestampError,
+  HomeAlreadyExistsError,
+  HomeDoesntExistError,
   IncorrectPasswordError,
   InternalError,
   InvalidEmailError,
+  InvalidIdentifierError,
   InvalidObjectIdError,
   InvalidPayloadTypeError,
   InvalidTimestampError,
@@ -13,6 +18,8 @@ const {
   MissingRequiredFieldError,
   PasswordTooShortError,
   PermissionDeniedError,
+  RoomAlreadyExistsError,
+  RoomDoesntExistError,
   UnknownUserError,
   UnmatchedRouteError,
   UserAlreadyExistsError,
@@ -22,6 +29,16 @@ const {
 
 function errors(req, res, next) {
   res.error = {
+    deviceAlreadyExists(context) {
+      const error = new DeviceAlreadyExistsError(context);
+
+      next(error);
+    },
+    deviceDoesntExist(context) {
+      const error = new DeviceDoesntExistError(context);
+
+      next(error);
+    },
     expiredTimestamp(context) {
       const error = new ExpiredTimestampError(context);
 
@@ -29,6 +46,16 @@ function errors(req, res, next) {
     },
     futureTimestamp(context) {
       const error = new FutureTimestampError(context);
+
+      next(error);
+    },
+    homeAlreadyExists(context) {
+      const error = new HomeAlreadyExistsError(context);
+
+      next(error);
+    },
+    homeDoesntExist(context) {
+      const error = new HomeDoesntExistError(context);
 
       next(error);
     },
@@ -44,6 +71,11 @@ function errors(req, res, next) {
     },
     invalidEmail(context) {
       const error = new InvalidEmailError(context);
+
+      next(error);
+    },
+    invalidIdentifier(context) {
+      const error = new InvalidIdentifierError(context);
 
       next(error);
     },
@@ -89,6 +121,16 @@ function errors(req, res, next) {
     },
     permissionDenied(context) {
       const error = new PermissionDeniedError(context);
+
+      next(error);
+    },
+    roomAlreadyExists(context) {
+      const error = new RoomAlreadyExistsError(context);
+
+      next(error);
+    },
+    roomDoesntExist(context) {
+      const error = new RoomDoesntExistError(context);
 
       next(error);
     },

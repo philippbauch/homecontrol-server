@@ -1,5 +1,3 @@
-const { USER_LOCKED } = require("../errors");
-
 const CONTEXT = "validation";
 
 /**
@@ -16,7 +14,7 @@ async function validation(req, res, next) {
   const { locked } = req.user;
 
   if (locked) {
-    return res.failure(USER_LOCKED(CONTEXT));
+    return res.error.userLocked(CONTEXT);
   }
 
   next();
