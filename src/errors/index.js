@@ -21,6 +21,8 @@ const USER_LOCKED = require("./userLocked");
 const USER_NOT_CONFIRMED = require("./userNotConfirmed");
 const USER_NOT_VERIFIED = require("./userNotVerified");
 
+const PermissionDeniedError = require("./PermissionDeniedError");
+
 module.exports = {
   EXPIRED_TIMESTAMP,
   FUTURE_TIMESTAMP,
@@ -43,5 +45,7 @@ module.exports = {
   USER_DOESNT_EXIST,
   USER_LOCKED,
   USER_NOT_CONFIRMED,
-  USER_NOT_VERIFIED
+  USER_NOT_VERIFIED,
+
+  PermissionDeniedError
 };
