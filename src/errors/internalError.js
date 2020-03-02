@@ -1,10 +1,18 @@
-function INTERNAL_ERROR(context) {
-  return {
-    code: 500,
-    id: "ERR_INTERNAL_ERROR",
-    message: "Internal server error.",
-    context
-  };
+const ApiError = require("./ApiError");
+
+class InternalError extends ApiError {
+  constructor(domain) {
+    const code = 500;
+    const id = "ERR_INTERNAL_ERROR";
+    const message = "Internal server error";
+
+    super({
+      code,
+      domain,
+      id,
+      message
+    });
+  }
 }
 
-module.exports = INTERNAL_ERROR;
+module.exports = InternalError;
