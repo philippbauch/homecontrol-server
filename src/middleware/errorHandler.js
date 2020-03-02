@@ -1,4 +1,4 @@
-const { formatResponse } = require("../middleware/responseFormatter");
+const { formatResponse } = require("../utils");
 
 function errorHandler(error, req, res, next) {
   if (!error.id) {
