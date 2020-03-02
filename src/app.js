@@ -1,7 +1,7 @@
 const cors = require("cors");
 const express = require("express");
 const api = require("./api");
-const { errorHandler, errors, responseFormatter } = require("./middleware");
+const { errorHandler, errors, success } = require("./middleware");
 const { expressLogger } = require("./logger/express");
 
 // Create an express app.
@@ -16,8 +16,8 @@ app.use(cors());
 // Express middleware that parses incoming requests with JSON payloads.
 app.use(express.json());
 
-// Format the API reponses.
-app.use(responseFormatter);
+// Format successful API reponses.
+app.use(success);
 
 // Standard error responses.
 app.use(errors);
