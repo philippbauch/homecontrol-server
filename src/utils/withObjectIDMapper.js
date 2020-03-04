@@ -2,27 +2,37 @@ const { ObjectID } = require("mongodb");
 
 const CONTEXT = "map_params_to_object_id";
 
-function shouldMapParam(param) {
-  return param.endsWith("Id");
+function shouldMapKey(key) {
+  return key.endsWith("Id");
 }
 
-function mapObjectIDs(req, res, next) {
-  const { params } = req;
+function mapObjectIDs(object) {
+  for (let key of Object.keys(object)) {
+    const value = object[key];
 
-  for (let param of Object.keys(params)) {
-    const value = params[param];
-
-    if (!shouldMapParam(param)) {
+    if (!shouldMapKey(key)) {
       continue;
     }
 
     if (!ObjectID.isValid(value)) {
-      return res.error.invalidObjectId(CONTEXT);
+      throw new Error();
     }
 
     const _id = ObjectID.createFromHexString(value);
 
-    params[param] = _id;
+    object[key] = _id;
+  }
+}
+
+function mapper(req, res, next) {
+  const { body, params, query } = req;
+
+  try {
+    mapObjectIDs(body);
+    mapObjectIDs(params);
+    mapObjectIDs(query);
+  } catch (error) {
+    return res.error.invalidObjectId(CONTEXT);
   }
 
   next();
@@ -37,7 +47,7 @@ function withObjectIDMapper(router) {
     if (!_method) return;
 
     router[method] = (path, callback, ...callbacks) => {
-      _method.call(router, path, mapObjectIDs, callback, ...callbacks);
+      _method.call(router, path, mapper, callback, ...callbacks);
     };
   });
 }
