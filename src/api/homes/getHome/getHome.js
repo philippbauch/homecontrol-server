@@ -7,15 +7,13 @@ async function getHome(req, res) {
   const { _id: userId } = req.user;
 
   try {
-    let home = await db.homes.findOne({ _id });
+    let home = await db.homes.findOne({ _id, residents: userId });
 
     if (!home) {
       return res.error.homeDoesntExist(CONTEXT);
-    } else if (!home.userId.equals(userId)) {
-      return res.error.permissionDenied(CONTEXT);
-    } else {
-      return res.success(home);
     }
+
+    return res.success(home);
   } catch (error) {
     return res.error.internalError(CONTEXT);
   }

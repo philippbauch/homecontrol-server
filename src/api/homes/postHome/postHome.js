@@ -7,7 +7,7 @@ async function postHome(req, res) {
   const { _id: userId } = req.user;
 
   try {
-    const existingHome = await db.homes.findOne({ name, userId });
+    const existingHome = await db.homes.findOne({ name, residents: userId });
 
     if (existingHome) {
       return res.error.homeAlreadyExists(CONTEXT);
@@ -19,7 +19,7 @@ async function postHome(req, res) {
   try {
     const { insertedId: _id } = await db.homes.insertOne({
       name,
-      userId
+      residents: [userId]
     });
 
     res.success({ _id });

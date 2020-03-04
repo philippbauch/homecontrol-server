@@ -6,7 +6,7 @@ async function getHomes(req, res) {
   const { _id: userId } = req.user;
 
   try {
-    let homes = await db.homes.find({ userId }).toArray();
+    let homes = await db.homes.find({ residents: userId }).toArray();
 
     return res.success(homes);
   } catch (error) {
