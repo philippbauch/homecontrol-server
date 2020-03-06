@@ -1,1 +1,1 @@
-# api.home.philippbauch.com
+# homecontrol server
