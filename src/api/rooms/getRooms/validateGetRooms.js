@@ -1,7 +1,15 @@
 const CONTEXT = "validate_get_rooms";
 
 function validateGetRooms(req, res, next) {
-  // Add validation here
+  const { homeId } = req.params;
+
+  if (!homeId) {
+    return res.error.missingParam(CONTEXT, "homeId");
+  }
+
+  req.getRooms = {
+    homeId
+  };
 
   next();
 }

@@ -37,8 +37,9 @@ class DatabaseManager {
   /**
    * Connect to the MongoDB server at the given URL.
    *
-   * @param {string} url - URL of the MongoDB server to connect to
-   * @param {any} options - connection options
+   * @param {string} url     - URL of the MongoDB server to connect to
+   * @param {string} dbName  - name of the database to connect to
+   * @param {any}    options - connection options
    */
   async connect(url, dbName, options = {}) {
     if (!url) {

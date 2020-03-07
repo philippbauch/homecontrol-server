@@ -3,11 +3,24 @@ const { db } = require("../../../db");
 const CONTEXT = "post_room";
 
 async function postRoom(req, res) {
-  const { name } = req.postRoom;
+  const { homeId, name } = req.postRoom;
   const { _id: userId } = req.user;
 
+  console.log(homeId);
+  console.log(userId);
+
   try {
-    const existingRoom = await db.rooms.findOne({ name, userId });
+    let home = await db.homes.findOne({ _id: homeId, residents: userId });
+
+    if (!home) {
+      return res.error.homeDoesntExist(CONTEXT);
+    }
+  } catch (error) {
+    return res.error.internalError(CONTEXT);
+  }
+
+  try {
+    const existingRoom = await db.rooms.findOne({ homeId, name });
 
     if (existingRoom) {
       return res.error.roomAlreadyExists(CONTEXT);
@@ -18,8 +31,8 @@ async function postRoom(req, res) {
 
   try {
     const { insertedId: _id } = await db.rooms.insertOne({
-      name,
-      userId
+      homeId,
+      name
     });
 
     res.success({ _id });

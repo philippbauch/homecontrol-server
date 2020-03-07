@@ -79,9 +79,9 @@ router.get("/homes", validateGetHomes, getHomes);
 router.get("/homes/:homeId", validateGetHome, getHome);
 router.post("/homes", validatePostHome, postHome);
 
-router.get("/rooms", validateGetRooms, getRooms);
+router.get("/homes/:homeId/rooms", validateGetRooms, getRooms);
 router.get("/rooms/:roomId", validateGetRoom, getRoom);
-router.post("/rooms", validatePostRoom, postRoom);
+router.post("/homes/:homeId/rooms", validatePostRoom, postRoom);
 
 router.get("/users", permitAdmin, validateGetUsers, getUsers);
 router.get("/users/:userId", permitAdmin, validateGetUser, getUser);

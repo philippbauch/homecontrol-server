@@ -4,9 +4,39 @@ const CONTEXT = "get_rooms";
 
 async function getRooms(req, res) {
   const { _id: userId } = req.user;
+  const { homeId } = req.getRooms;
 
   try {
-    let rooms = await db.rooms.find({ userId }).toArray();
+    /**
+     *  [
+     *    {
+     *      "_id": ...,
+     *      "name": ...,
+     *      "homeId": ...,
+     *      "homes": [
+     *        {
+     *          "_id": ...,
+     *          "name": ...,
+     *          "residents": [...]
+     *        }
+     *      ]
+     *    }
+     *  ]
+     */
+    let rooms = await db.rooms
+      .aggregate([
+        {
+          $lookup: {
+            from: "homes",
+            localField: "homeId",
+            foreignField: "_id",
+            as: "homes"
+          }
+        },
+        { $match: { homeId, "homes.residents": userId } },
+        { $project: { homes: 0 } }
+      ])
+      .toArray();
 
     return res.success(rooms);
   } catch (error) {
