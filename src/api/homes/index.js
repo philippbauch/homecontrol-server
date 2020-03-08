@@ -1,12 +1,9 @@
-const { getHome, validateGetHome } = require("./getHome");
-const { getHomes, validateGetHomes } = require("./getHomes");
-const { postHome, validatePostHome } = require("./postHome");
+const { getHome } = require("./getHome");
+const { getHomes } = require("./getHomes");
+const { postHome } = require("./postHome");
 
 module.exports = {
   getHome,
   getHomes,
-  postHome,
-  validateGetHome,
-  validateGetHomes,
-  validatePostHome
+  postHome
 };

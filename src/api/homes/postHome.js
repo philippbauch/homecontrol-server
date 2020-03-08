@@ -1,10 +1,15 @@
-const { db } = require("../../../db");
+const { db } = require("../../db");
 
 const CONTEXT = "post_home";
 
 async function postHome(req, res) {
-  const { name } = req.postHome;
+  const { name } = req.body;
   const { _id: userId } = req.user;
+
+  if (!name) {
+    res.error.missingRequiredField(CONTEXT, "name");
+    return;
+  }
 
   try {
     const existingHome = await db.homes.findOne({ name, residents: userId });

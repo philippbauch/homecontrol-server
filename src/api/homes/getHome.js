@@ -1,13 +1,13 @@
-const { db } = require("../../../db");
+const { db } = require("../../db");
 
 const CONTEXT = "get_home";
 
 async function getHome(req, res) {
-  const { _id } = req.getHome;
+  const { homeId } = req.params;
   const { _id: userId } = req.user;
 
   try {
-    let home = await db.homes.findOne({ _id, residents: userId });
+    let home = await db.homes.findOne({ _id: homeId, residents: userId });
 
     if (!home) {
       return res.error.homeDoesntExist(CONTEXT);

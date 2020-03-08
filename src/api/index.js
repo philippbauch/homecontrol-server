@@ -13,14 +13,7 @@ const {
   validatePostDevice
 } = require("./devices");
 
-const {
-  getHome,
-  getHomes,
-  postHome,
-  validateGetHome,
-  validateGetHomes,
-  validatePostHome
-} = require("./homes");
+const { getHome, getHomes, postHome } = require("./homes");
 
 const {
   getRoom,
@@ -75,9 +68,9 @@ router.get("/devices", validateGetDevices, getDevices);
 router.get("/devices/:deviceId", validateGetDevice, getDevice);
 router.post("/devices", validatePostDevice, postDevice);
 
-router.get("/homes", validateGetHomes, getHomes);
-router.get("/homes/:homeId", validateGetHome, getHome);
-router.post("/homes", validatePostHome, postHome);
+router.get("/homes", getHomes);
+router.get("/homes/:homeId", getHome);
+router.post("/homes", postHome);
 
 router.get("/homes/:homeId/rooms", validateGetRooms, getRooms);
 router.get("/rooms/:roomId", validateGetRoom, getRoom);
