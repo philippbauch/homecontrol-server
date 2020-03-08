@@ -1,17 +1,14 @@
 const { db } = require("../../db");
+const { wrapAsync } = require("../../utils");
 
 const CONTEXT = "get_homes";
 
-async function getHomes(req, res) {
+const getHomes = wrapAsync(async function(req, res) {
   const { _id: userId } = req.user;
 
-  try {
-    let homes = await db.homes.find({ residents: userId }).toArray();
+  let homes = await db.homes.find({ residents: userId }).toArray();
 
-    return res.success(homes);
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
-  }
-}
+  return res.success(homes);
+}, CONTEXT);
 
 module.exports = { CONTEXT, getHomes };

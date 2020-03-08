@@ -1,22 +1,20 @@
 const { db } = require("../../db");
+const { HomeDoesntExistError } = require("../../errors");
+const { wrapAsync } = require("../../utils");
 
 const CONTEXT = "get_home";
 
-async function getHome(req, res) {
+const getHome = wrapAsync(async function(req, res) {
   const { homeId } = req.params;
   const { _id: userId } = req.user;
 
-  try {
-    let home = await db.homes.findOne({ _id: homeId, residents: userId });
+  let home = await db.homes.findOne({ _id: homeId, residents: userId });
 
-    if (!home) {
-      return res.error.homeDoesntExist(CONTEXT);
-    }
-
-    return res.success(home);
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
+  if (!home) {
+    throw new HomeDoesntExistError();
   }
-}
+
+  return res.success(home);
+}, CONTEXT);
 
 module.exports = { CONTEXT, getHome };

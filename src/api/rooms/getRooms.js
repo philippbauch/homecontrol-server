@@ -1,47 +1,28 @@
 const { db } = require("../../db");
+const { wrapAsync } = require("../../utils");
 
 const CONTEXT = "get_rooms";
 
-async function getRooms(req, res) {
+const getRooms = wrapAsync(async function(req, res) {
   const { homeId } = req.params;
   const { _id: userId } = req.user;
 
-  try {
-    /**
-     *  [
-     *    {
-     *      "_id": ...,
-     *      "name": ...,
-     *      "homeId": ...,
-     *      "homes": [
-     *        {
-     *          "_id": ...,
-     *          "name": ...,
-     *          "residents": [...]
-     *        }
-     *      ]
-     *    }
-     *  ]
-     */
-    let rooms = await db.rooms
-      .aggregate([
-        {
-          $lookup: {
-            from: "homes",
-            localField: "homeId",
-            foreignField: "_id",
-            as: "homes"
-          }
-        },
-        { $match: { homeId, "homes.residents": userId } },
-        { $project: { homes: 0 } }
-      ])
-      .toArray();
+  let rooms = await db.rooms
+    .aggregate([
+      {
+        $lookup: {
+          from: "homes",
+          localField: "homeId",
+          foreignField: "_id",
+          as: "homes"
+        }
+      },
+      { $match: { homeId, "homes.residents": userId } },
+      { $project: { homes: 0 } }
+    ])
+    .toArray();
 
-    return res.success(rooms);
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
-  }
-}
+  return res.success(rooms);
+}, CONTEXT);
 
 module.exports = { CONTEXT, getRooms };

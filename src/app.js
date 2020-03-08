@@ -1,7 +1,7 @@
 const cors = require("cors");
 const express = require("express");
 const api = require("./api");
-const { errorHandler, errors, success } = require("./middleware");
+const { errorHandler, success } = require("./middleware");
 const { expressLogger } = require("./logger/express");
 
 // Create an express app.
@@ -18,9 +18,6 @@ app.use(express.json());
 
 // Format successful API responses.
 app.use(success);
-
-// Standard error responses.
-app.use(errors);
 
 // Mount the actual API router.
 app.use(api);

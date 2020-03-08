@@ -1,17 +1,12 @@
 const ApiError = require("./ApiError");
 
 class InvalidPayloadTypeError extends ApiError {
-  constructor(domain) {
+  constructor(value) {
     const code = 400;
     const id = "ERR_INVALID_PAYLOAD_TYPE";
     const message = "The token payload must be of type `object`";
 
-    super({
-      code,
-      domain,
-      id,
-      message
-    });
+    super({ code, id, message, value });
   }
 }
 

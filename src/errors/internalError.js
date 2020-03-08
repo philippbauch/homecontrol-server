@@ -1,17 +1,12 @@
 const ApiError = require("./ApiError");
 
 class InternalError extends ApiError {
-  constructor(domain) {
+  constructor(value) {
     const code = 500;
     const id = "ERR_INTERNAL_ERROR";
     const message = "Internal server error";
 
-    super({
-      code,
-      domain,
-      id,
-      message
-    });
+    super({ code, id, message, value });
   }
 }
 

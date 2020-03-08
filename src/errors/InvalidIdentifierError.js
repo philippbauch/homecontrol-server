@@ -1,17 +1,12 @@
 const ApiError = require("./ApiError");
 
 class InvalidIdentifierError extends ApiError {
-  constructor(domain) {
+  constructor(value) {
     const code = 400;
     const id = "ERR_INVALID_IDENTIFIER";
     const message = "The identifier is invalid";
 
-    super({
-      code,
-      domain,
-      id,
-      message
-    });
+    super({ code, id, message, value });
   }
 }
 

@@ -1,13 +1,16 @@
+const { PermissionDeniedError } = require("../errors");
+const { wrapSync } = require("../utils");
+
 const CONTEXT = "check_permissions";
 
-function permitAdmin(req, res, next) {
+const permitAdmin = wrapSync(function(req, res, next) {
   const { admin } = req.user;
 
   if (!admin) {
-    return res.error.permissionDenied(CONTEXT);
+    throw new PermissionDeniedError();
   }
 
   next();
-}
+}, CONTEXT);
 
 module.exports = { permitAdmin };

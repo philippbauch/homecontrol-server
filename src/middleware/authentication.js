@@ -1,5 +1,10 @@
 const jwt = require("jsonwebtoken");
-const { isObject } = require("../utils");
+const {
+  InvalidPayloadTypeError,
+  InvalidTokenError,
+  MissingHeaderError
+} = require("../errors");
+const { isObject, wrapAsync } = require("../utils");
 
 const CONTEXT = "authentication";
 
@@ -13,11 +18,11 @@ const CONTEXT = "authentication";
  * @param {*} res Express.js Response object
  * @param {*} next Express.js Next function
  */
-async function authentication(req, res, next) {
+const authentication = wrapAsync(async function(req, res, next) {
   const { authentication } = req.headers;
 
   if (!authentication) {
-    return res.error.missingHeader(CONTEXT, "authentication");
+    throw new MissingHeaderError("authentication");
   }
 
   let payload;
@@ -25,15 +30,15 @@ async function authentication(req, res, next) {
   try {
     payload = await jwt.verify(authentication, "secret");
   } catch (error) {
-    return res.error.invalidToken(CONTEXT);
+    throw new InvalidTokenError();
   }
 
   if (!isObject(payload)) {
-    return res.error.invalidPayloadType(CONTEXT);
+    throw new InvalidPayloadTypeError();
   }
 
   if (!payload.user || !payload.user._id) {
-    return res.error.invalidToken(CONTEXT);
+    throw new InvalidTokenError();
   }
 
   req.auth = {
@@ -41,9 +46,6 @@ async function authentication(req, res, next) {
   };
 
   next();
-}
+}, CONTEXT);
 
-module.exports = {
-  authentication,
-  CONTEXT
-};
+module.exports = { authentication, CONTEXT };

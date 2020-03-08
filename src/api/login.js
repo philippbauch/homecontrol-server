@@ -1,48 +1,44 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { db } = require("../db");
+const {
+  IncorrectPasswordError,
+  InternalError,
+  MissingRequiredFieldError,
+  UserDoesntExistError,
+  UserLockedError
+} = require("../errors");
+const { wrapAsync } = require("../utils");
 
 const CONTEXT = "login";
 
-async function login(req, res) {
+const login = wrapAsync(async function(req, res) {
   const { identifier, password } = req.body;
 
   if (!identifier) {
-    res.error.missingRequiredField(CONTEXT, "identifier");
-    return;
+    throw new MissingRequiredFieldError("identifier");
   }
 
   if (!password) {
-    res.error.missingRequiredField(CONTEXT, "password");
-    return;
+    throw new MissingRequiredFieldError("password");
   }
 
-  let user;
+  let user = await db.users.findOne({ identifier });
 
-  try {
-    user = await db.users.findOne({ identifier });
-
-    if (!user) {
-      return res.error.userDoesntExist(CONTEXT);
-    }
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
+  if (!user) {
+    throw new UserDoesntExistError();
   }
 
   const { _id, hash, admin, locked } = user;
 
-  try {
-    const equal = await bcrypt.compare(password, hash);
+  const equal = await bcrypt.compare(password, hash);
 
-    if (!equal) {
-      return res.error.incorrectPassword(CONTEXT);
-    }
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
+  if (!equal) {
+    throw new IncorrectPasswordError();
   }
 
   if (locked) {
-    return res.error.userLocked(CONTEXT);
+    throw new UserLockedError();
   }
 
   const userPayload = {
@@ -51,19 +47,15 @@ async function login(req, res) {
     admin
   };
 
-  try {
-    const token = await jwt.sign({ user: userPayload }, "secret", {
-      expiresIn: "1 days"
-    });
+  const token = await jwt.sign({ user: userPayload }, "secret", {
+    expiresIn: "1 days"
+  });
 
-    if (!token) {
-      return res.error.internalError(CONTEXT);
-    }
-
-    return res.success({ _id, token });
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
+  if (!token) {
+    throw new InternalError();
   }
-}
+
+  return res.success({ _id, token });
+}, CONTEXT);
 
 module.exports = { CONTEXT, login };

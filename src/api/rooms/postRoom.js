@@ -1,47 +1,40 @@
 const { db } = require("../../db");
+const {
+  HomeDoesntExistError,
+  MissingRequiredFieldError,
+  RoomAlreadyExistsError
+} = require("../../errors");
+const { wrapAsync } = require("../../utils");
 
 const CONTEXT = "post_room";
 
-async function postRoom(req, res) {
+const postRoom = wrapAsync(async function(req, res) {
   const { name } = req.body;
   const { homeId } = req.params;
   const { _id: userId } = req.user;
 
   if (!name) {
-    res.error.missingRequiredField(CONTEXT, "name");
-    return;
+    throw new MissingRequiredFieldError("name");
   }
 
-  try {
-    let home = await db.homes.findOne({ _id: homeId, residents: userId });
+  let home = await db.homes.findOne({ _id: homeId, residents: userId });
 
-    if (!home) {
-      return res.error.homeDoesntExist(CONTEXT);
-    }
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
+  if (!home) {
+    throw new HomeDoesntExistError();
   }
 
-  try {
-    const existingRoom = await db.rooms.findOne({ homeId, name });
+  const existingRoom = await db.rooms.findOne({ homeId, name });
 
-    if (existingRoom) {
-      return res.error.roomAlreadyExists(CONTEXT);
-    }
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
+  if (existingRoom) {
+    throw new RoomAlreadyExistsError();
   }
 
-  try {
-    const { insertedId: _id } = await db.rooms.insertOne({
-      homeId,
-      name
-    });
+  const { insertedId: _id } = await db.rooms.insertOne({
+    homeId,
+    name
+  });
 
-    res.success({ _id });
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
-  }
-}
+  res.success({ _id });
+}, CONTEXT);
 
 module.exports = { CONTEXT, postRoom };

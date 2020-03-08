@@ -1,6 +1,5 @@
 const { authentication } = require("./authentication");
 const { errorHandler } = require("./errorHandler");
-const { errors } = require("./errors");
 const { identification } = require("./identification");
 const { permitAdmin } = require("./permitAdmin");
 const { success } = require("./success");
@@ -11,7 +10,6 @@ const { validation } = require("./validation");
 module.exports = {
   authentication,
   errorHandler,
-  errors,
   identification,
   permitAdmin,
   success,

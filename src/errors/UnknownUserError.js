@@ -1,17 +1,12 @@
 const ApiError = require("./ApiError");
 
 class UnknownUserError extends ApiError {
-  constructor(domain) {
+  constructor(value) {
     const code = 400;
     const id = "ERR_UNKNOWN_USER";
     const message = "The authenticated user is unknown";
 
-    super({
-      code,
-      domain,
-      id,
-      message
-    });
+    super({ code, id, message, value });
   }
 }
 

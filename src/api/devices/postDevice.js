@@ -1,37 +1,33 @@
 const { db } = require("../../db");
+const {
+  DeviceAlreadyExistsError,
+  MissingRequiredFieldError
+} = require("../../errors");
+const { wrapAsync } = require("../../utils");
 
 const CONTEXT = "post_device";
 
-async function postDevice(req, res) {
+const postDevice = wrapAsync(async function(req, res) {
   const { name } = req.body;
 
   if (!name) {
-    res.error.missingRequiredField(CONTEXT, "name");
-    return;
+    throw new MissingRequiredFieldError("name");
   }
 
-  try {
-    const existingDevice = await db.devices.findOne({ name });
+  const existingDevice = await db.devices.findOne({ name });
 
-    if (existingDevice) {
-      return res.error.deviceAlreadyExists(CONTEXT);
-    }
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
+  if (existingDevice) {
+    throw new DeviceAlreadyExistsError();
   }
 
   const apiKey = null;
 
-  try {
-    const { insertedId: _id } = await db.devices.insertOne({
-      name,
-      apiKey
-    });
+  const { insertedId: _id } = await db.devices.insertOne({
+    name,
+    apiKey
+  });
 
-    res.success({ _id });
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
-  }
-}
+  res.success({ _id });
+}, CONTEXT);
 
 module.exports = { CONTEXT, postDevice };

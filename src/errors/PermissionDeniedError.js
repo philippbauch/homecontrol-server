@@ -1,17 +1,12 @@
 const ApiError = require("./ApiError");
 
 class PermissionDeniedError extends ApiError {
-  constructor(domain) {
+  constructor(value) {
     const code = 403;
     const id = "ERR_PERMISSION_DENIED";
     const message = "Permission denied";
 
-    super({
-      code,
-      domain,
-      id,
-      message
-    });
+    super({ code, id, message, value });
   }
 }
 

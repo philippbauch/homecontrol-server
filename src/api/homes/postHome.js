@@ -1,36 +1,32 @@
 const { db } = require("../../db");
+const {
+  HomeAlreadyExistsError,
+  MissingRequiredFieldError
+} = require("../../errors");
+const { wrapAsync } = require("../../utils");
 
 const CONTEXT = "post_home";
 
-async function postHome(req, res) {
+const postHome = wrapAsync(async function(req, res) {
   const { name } = req.body;
   const { _id: userId } = req.user;
 
   if (!name) {
-    res.error.missingRequiredField(CONTEXT, "name");
-    return;
+    throw new MissingRequiredFieldError("name");
   }
 
-  try {
-    const existingHome = await db.homes.findOne({ name, residents: userId });
+  const existingHome = await db.homes.findOne({ name, residents: userId });
 
-    if (existingHome) {
-      return res.error.homeAlreadyExists(CONTEXT);
-    }
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
+  if (existingHome) {
+    throw new HomeAlreadyExistsError();
   }
 
-  try {
-    const { insertedId: _id } = await db.homes.insertOne({
-      name,
-      residents: [userId]
-    });
+  const { insertedId: _id } = await db.homes.insertOne({
+    name,
+    residents: [userId]
+  });
 
-    res.success({ _id });
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
-  }
-}
+  res.success({ _id });
+}, CONTEXT);
 
 module.exports = { CONTEXT, postHome };

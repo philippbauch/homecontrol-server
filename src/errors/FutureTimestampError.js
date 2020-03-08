@@ -1,17 +1,12 @@
 const ApiError = require("./ApiError");
 
 class FutureTimestampError extends ApiError {
-  constructor(domain) {
+  constructor(value) {
     const code = 403;
     const id = "ERR_FUTURE_TIMESTAMP";
     const message = "Timestamp is in the future";
 
-    super({
-      code,
-      domain,
-      id,
-      message
-    });
+    super({ code, id, message, value });
   }
 }
 

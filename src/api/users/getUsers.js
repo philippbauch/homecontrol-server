@@ -1,18 +1,15 @@
 const { db } = require("../../db");
+const { wrapAsync } = require("../../utils");
 
 const CONTEXT = "get_users";
 
-async function getUsers(req, res) {
-  try {
-    let users = await db.users
-      .find({})
-      .project({ hash: 0 })
-      .toArray();
+const getUsers = wrapAsync(async function(req, res) {
+  let users = await db.users
+    .find({})
+    .project({ hash: 0 })
+    .toArray();
 
-    return res.success(users);
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
-  }
-}
+  return res.success(users);
+}, CONTEXT);
 
 module.exports = { CONTEXT, getUsers };

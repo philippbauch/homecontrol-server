@@ -1,16 +1,19 @@
+const ApiError = require("../errors/ApiError");
+const { logger } = require("../logger");
 const { formatResponse } = require("../utils");
 
 function errorHandler(error, req, res, next) {
-  if (!error.id) {
-    return next(error);
+  if (!(error instanceof ApiError)) {
+    logger.error(error.message);
+    error = new ApiError({});
   }
 
-  const { code, domain, id, message, value } = error;
+  const { code, context, id, message, value } = error;
   const { method, path } = req;
 
   const payload = {
     code,
-    domain,
+    context,
     id,
     method,
     message,

@@ -1,5 +1,7 @@
 const { ObjectID } = require("mongodb");
 const { db } = require("../db");
+const { InternalError, InvalidObjectIdError, UnknownUserError } = require("../errors");
+const { wrapAsync } = require("../utils");
 
 const CONTEXT = "identification";
 
@@ -13,33 +15,23 @@ const CONTEXT = "identification";
  * @param {*} res Express.js Response object
  * @param {*} next Express.js Next function
  */
-async function identification(req, res, next) {
-  if (!req.auth) {
-    return res.error.internalError(CONTEXT);
+const identification = wrapAsync(async function(req, res, next) {
+  if (!req.auth || !req.auth.userId) {
+    throw new InternalError();
   }
 
   let { userId } = req.auth;
 
-  if (!userId) {
-    return res.error.internalError(CONTEXT);
-  }
-
   if (!ObjectID.isValid(userId)) {
-    return res.error.invalidObjectId(CONTEXT);
+    throw new InvalidObjectIdError();
   }
 
   const _id = ObjectID.createFromHexString(userId);
 
-  let user;
+  let user = await db.users.findOne({ _id }, { projection: { hash: 0 } });
 
-  try {
-    user = await db.users.findOne({ _id }, { projection: { hash: 0 } });
-
-    if (!user) {
-      return res.error.unknownUser(CONTEXT);
-    }
-  } catch (error) {
-    return res.error.internalError(CONTEXT);
+  if (!user) {
+    throw new UnknownUserError();
   }
 
   delete req.auth;
@@ -47,6 +39,6 @@ async function identification(req, res, next) {
   req.user = user;
 
   next();
-}
+}, CONTEXT);
 
 module.exports = { CONTEXT, identification };
