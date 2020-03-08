@@ -34,6 +34,6 @@ elif [[ "$1" == "stop" ]]; then
 
 elif [[ "$1" == "logs" ]]; then
 
-    docker logs -f homecontrol_server_${GIT_BRANCH}
+    docker logs -f homecontrol_server_"${GIT_BRANCH}"
 
 fi

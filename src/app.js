@@ -16,7 +16,7 @@ app.use(cors());
 // Express middleware that parses incoming requests with JSON payloads.
 app.use(express.json());
 
-// Format successful API reponses.
+// Format successful API responses.
 app.use(success);
 
 // Standard error responses.
