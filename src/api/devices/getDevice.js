@@ -1,12 +1,12 @@
-const { db } = require("../../../db");
+const { db } = require("../../db");
 
 const CONTEXT = "get_device";
 
 async function getDevice(req, res) {
-  const { _id } = req.getDevice;
+  const { deviceId } = req.params;
 
   try {
-    let device = await db.devices.findOne({ _id });
+    let device = await db.devices.findOne({ _id: deviceId });
 
     if (!device) {
       return res.error.deviceDoesntExist(CONTEXT);

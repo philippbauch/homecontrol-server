@@ -1,9 +1,14 @@
-const { db } = require("../../../db");
+const { db } = require("../../db");
 
 const CONTEXT = "post_device";
 
 async function postDevice(req, res) {
-  const { name } = req.postDevice;
+  const { name } = req.body;
+
+  if (!name) {
+    res.error.missingRequiredField(CONTEXT, "name");
+    return;
+  }
 
   try {
     const existingDevice = await db.devices.findOne({ name });

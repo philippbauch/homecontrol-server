@@ -1,11 +1,21 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { db } = require("../../db");
+const { db } = require("../db");
 
 const CONTEXT = "login";
 
 async function login(req, res) {
-  const { identifier, password } = req.login;
+  const { identifier, password } = req.body;
+
+  if (!identifier) {
+    res.error.missingRequiredField(CONTEXT, "identifier");
+    return;
+  }
+
+  if (!password) {
+    res.error.missingRequiredField(CONTEXT, "password");
+    return;
+  }
 
   let user;
 

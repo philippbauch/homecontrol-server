@@ -90,7 +90,7 @@ class DatabaseManager {
   async launchMemoryServer() {
     this.server = new MongoMemoryServer();
 
-    const url = await this.server.getConnectionString();
+    const url = await this.server.getUri();
     const dbName = await this.server.getDbName();
 
     return [url, dbName];

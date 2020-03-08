@@ -1,12 +1,12 @@
-const { db } = require("../../../db");
+const { db } = require("../../db");
 
 const CONTEXT = "get_user";
 
 async function getUser(req, res) {
-  const { _id } = req.getUser;
+  const { userId } = req.params;
 
   try {
-    let user = await db.users.findOne({ _id }, { projection: { hash: 0 } });
+    let user = await db.users.findOne({ _id: userId }, { projection: { hash: 0 } });
 
     if (!user) {
       return res.error.userDoesntExist(CONTEXT);

@@ -1,12 +1,9 @@
-const { getUser, validateGetUser } = require("./getUser");
-const { getUsers, validateGetUsers } = require("./getUsers");
-const { postUser, validatePostUser } = require("./postUser");
+const { getUser } = require("./getUser");
+const { getUsers } = require("./getUsers");
+const { postUser } = require("./postUser");
 
 module.exports = {
   getUser,
   getUsers,
-  postUser,
-  validateGetUser,
-  validateGetUsers,
-  validatePostUser
+  postUser
 };

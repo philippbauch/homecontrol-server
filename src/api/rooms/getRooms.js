@@ -1,10 +1,10 @@
-const { db } = require("../../../db");
+const { db } = require("../../db");
 
 const CONTEXT = "get_rooms";
 
 async function getRooms(req, res) {
+  const { homeId } = req.params;
   const { _id: userId } = req.user;
-  const { homeId } = req.getRooms;
 
   try {
     /**

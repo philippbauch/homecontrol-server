@@ -2,36 +2,12 @@ const express = require("express");
 
 const { base } = require("./base");
 
-const { login, validateLogin } = require("./login");
+const { login } = require("./login");
 
-const {
-  getDevice,
-  getDevices,
-  postDevice,
-  validateGetDevice,
-  validateGetDevices,
-  validatePostDevice
-} = require("./devices");
-
+const { getDevice, getDevices, postDevice } = require("./devices");
 const { getHome, getHomes, postHome } = require("./homes");
-
-const {
-  getRoom,
-  getRooms,
-  postRoom,
-  validateGetRoom,
-  validateGetRooms,
-  validatePostRoom
-} = require("./rooms");
-
-const {
-  getUser,
-  getUsers,
-  postUser,
-  validateGetUser,
-  validateGetUsers,
-  validatePostUser
-} = require("./users");
+const { getRoom, getRooms, postRoom } = require("./rooms");
+const { getUser, getUsers, postUser } = require("./users");
 
 const {
   authentication,
@@ -54,7 +30,7 @@ router.use(timestamp);
 
 // =========== PUBLIC ROUTES ===============
 
-router.post("/login", validateLogin, login);
+router.post("/login", login);
 
 // =========================================
 
@@ -64,21 +40,21 @@ router.use(validation);
 
 // =========== PRIVATE ROUTES ==============
 
-router.get("/devices", validateGetDevices, getDevices);
-router.get("/devices/:deviceId", validateGetDevice, getDevice);
-router.post("/devices", validatePostDevice, postDevice);
+router.get("/devices", getDevices);
+router.get("/devices/:deviceId", getDevice);
+router.post("/devices", postDevice);
 
 router.get("/homes", getHomes);
 router.get("/homes/:homeId", getHome);
 router.post("/homes", postHome);
 
-router.get("/homes/:homeId/rooms", validateGetRooms, getRooms);
-router.get("/rooms/:roomId", validateGetRoom, getRoom);
-router.post("/homes/:homeId/rooms", validatePostRoom, postRoom);
+router.get("/homes/:homeId/rooms", getRooms);
+router.get("/rooms/:roomId", getRoom);
+router.post("/homes/:homeId/rooms", postRoom);
 
-router.get("/users", permitAdmin, validateGetUsers, getUsers);
-router.get("/users/:userId", permitAdmin, validateGetUser, getUser);
-router.post("/users", permitAdmin, validatePostUser, postUser);
+router.get("/users", permitAdmin, getUsers);
+router.get("/users/:userId", permitAdmin, getUser);
+router.post("/users", permitAdmin, postUser);
 
 // =========================================
 

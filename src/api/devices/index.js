@@ -1,12 +1,9 @@
-const { getDevice, validateGetDevice } = require("./getDevice");
-const { getDevices, validateGetDevices } = require("./getDevices");
-const { postDevice, validatePostDevice } = require("./postDevice");
+const { getDevice } = require("./getDevice");
+const { getDevices } = require("./getDevices");
+const { postDevice } = require("./postDevice");
 
 module.exports = {
   getDevice,
   getDevices,
-  postDevice,
-  validateGetDevice,
-  validateGetDevices,
-  validatePostDevice
+  postDevice
 };
