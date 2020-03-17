@@ -4,6 +4,7 @@ const { base } = require("./base");
 const { login } = require("./login");
 const { getDevice, getDevices, postDevice } = require("./devices");
 const { getHome, getHomes, postHome } = require("./homes");
+const { deleteInvitation, getInvitations, postInvitation, putInvitation } = require("./invitations");
 const { getRoom, getRooms, postRoom } = require("./rooms");
 const { getUser, getUsers, postUser } = require("./users");
 
@@ -45,6 +46,11 @@ router.post("/devices", postDevice);
 router.get("/homes", getHomes);
 router.get("/homes/:homeId", getHome);
 router.post("/homes", postHome);
+
+router.delete("/invitations/:invitationId", deleteInvitation);
+router.get("/invitations", getInvitations);
+router.post("/invitations", postInvitation);
+router.put("/invitations/:invitationId", putInvitation);
 
 router.get("/homes/:homeId/rooms", getRooms);
 router.get("/rooms/:roomId", getRoom);

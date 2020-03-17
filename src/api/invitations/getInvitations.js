@@ -1,0 +1,77 @@
+const { db } = require("../../db");
+const { wrapAsync } = require("../../utils");
+
+const CONTEXT = "get_invitations";
+
+const getInvitations = wrapAsync(async function(req, res) {
+  const { _id: inviteeId } = req.user;
+
+  let invitations = await db.invitations.aggregate([
+    {
+      $match: {
+        inviteeId,
+        pending: true
+      }
+    },
+    {
+      $lookup: {
+        from: "homes",
+        localField: "homeId",
+        foreignField: "_id",
+        as: "home"
+      }
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "inviteeId",
+        foreignField: "_id",
+        as: "invitee"
+      }
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "inviterId",
+        foreignField: "_id",
+        as: "inviter"
+      }
+    },
+    {
+      $unwind: "$home"
+    },
+    {
+      $unwind: "$invitee"
+    },
+    {
+      $unwind: "$inviter"
+    },
+    {
+      $project: {
+        home: {
+          _id: "$home._id",
+          name: "$home.name",
+        },
+        invitee: {
+          _id: "$invitee._id",
+          identifier: "$invitee.identifier",
+        },
+        inviter: {
+          _id: "$inviter._id",
+          identifier: "$inviter.identifier",
+        }
+      }
+    },
+    {
+      $project: {
+        homeId: 0,
+        inviteeId: 0,
+        inviterId: 0
+      }
+    }
+  ]).toArray();
+
+  return res.success(invitations);
+}, CONTEXT);
+
+module.exports = { CONTEXT, getInvitations };

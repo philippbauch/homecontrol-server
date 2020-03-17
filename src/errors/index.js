@@ -12,11 +12,15 @@ const InvalidObjectIdError = require("./InvalidObjectIdError");
 const InvalidPayloadTypeError = require("./InvalidPayloadTypeError");
 const InvalidTimestampError = require("./InvalidTimestampError");
 const InvalidTokenError = require("./InvalidTokenError");
+const InvitationDoesntExistError = require("./InvitationDoesntExistError");
 const MissingHeaderError = require("./MissingHeaderError");
 const MissingParamError = require("./MissingParamError");
 const MissingRequiredFieldError = require("./MissingRequiredFieldError");
 const PasswordTooShortError = require("./PasswordTooShortError");
+const PendingInvitationError = require("./PendingInvitationError");
 const PermissionDeniedError = require("./PermissionDeniedError");
+const ResidentAlreadyExistsError = require("./ResidentAlreadyExistsError");
+const ResolvedInvitationError = require("./ResolvedInvitationError");
 const RoomAlreadyExistsError = require("./RoomAlreadyExistsError");
 const RoomDoesntExistError = require("./RoomDoesntExistError");
 const UnknownUserError = require("./UnknownUserError");
@@ -40,11 +44,15 @@ module.exports = {
   InvalidPayloadTypeError,
   InvalidTimestampError,
   InvalidTokenError,
+  InvitationDoesntExistError,
   MissingHeaderError,
   MissingParamError,
   MissingRequiredFieldError,
   PasswordTooShortError,
+  PendingInvitationError,
   PermissionDeniedError,
+  ResidentAlreadyExistsError,
+  ResolvedInvitationError,
   RoomAlreadyExistsError,
   RoomDoesntExistError,
   UnknownUserError,
