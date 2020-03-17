@@ -41,13 +41,7 @@ const login = wrapAsync(async function(req, res) {
     throw new UserLockedError();
   }
 
-  const userPayload = {
-    _id,
-    identifier,
-    admin
-  };
-
-  const token = await jwt.sign({ user: userPayload }, "secret", {
+  const token = await jwt.sign({_id}, "secret", {
     expiresIn: "1 days"
   });
 

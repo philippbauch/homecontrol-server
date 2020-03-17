@@ -14,7 +14,7 @@ const getRoom = wrapAsync(async function(req, res) {
     throw new RoomDoesntExistError();
   }
 
-  const home = await db.homes.findOne({ _id: room.homeId, residents: userId });
+  const home = await db.homes.findOne({ _id: room.homeId, "residents._id": userId });
 
   if (!home) {
     throw new PermissionDeniedError();

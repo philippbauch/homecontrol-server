@@ -21,9 +21,14 @@ const postHome = wrapAsync(async function(req, res) {
     throw new HomeAlreadyExistsError();
   }
 
+  const resident = {
+    _id: userId,
+    owner: true
+  };
+
   const { insertedId: _id } = await db.homes.insertOne({
     name,
-    residents: [userId]
+    residents: [resident]
   });
 
   res.success({ _id });

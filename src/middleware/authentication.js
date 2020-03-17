@@ -37,12 +37,12 @@ const authentication = wrapAsync(async function(req, res, next) {
     throw new InvalidPayloadTypeError();
   }
 
-  if (!payload.user || !payload.user._id) {
+  if (!payload._id) {
     throw new InvalidTokenError();
   }
 
   req.auth = {
-    userId: payload.user._id
+    userId: payload._id
   };
 
   next();

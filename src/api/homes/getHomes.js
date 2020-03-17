@@ -6,7 +6,7 @@ const CONTEXT = "get_homes";
 const getHomes = wrapAsync(async function(req, res) {
   const { _id: userId } = req.user;
 
-  let homes = await db.homes.find({ residents: userId }).toArray();
+  let homes = await db.homes.find({ "residents._id": userId }).toArray();
 
   return res.success(homes);
 }, CONTEXT);

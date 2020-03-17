@@ -1,9 +1,7 @@
 const express = require("express");
 
 const { base } = require("./base");
-
 const { login } = require("./login");
-
 const { getDevice, getDevices, postDevice } = require("./devices");
 const { getHome, getHomes, postHome } = require("./homes");
 const { getRoom, getRooms, postRoom } = require("./rooms");
