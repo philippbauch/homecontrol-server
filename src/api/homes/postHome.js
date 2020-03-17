@@ -15,12 +15,6 @@ const postHome = wrapAsync(async function(req, res) {
     throw new MissingRequiredFieldError("name");
   }
 
-  const existingHome = await db.homes.findOne({ name, residents: userId });
-
-  if (existingHome) {
-    throw new HomeAlreadyExistsError();
-  }
-
   const resident = {
     _id: userId,
     owner: true

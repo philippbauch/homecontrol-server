@@ -52,6 +52,10 @@ const putInvitation = wrapAsync(async function(req, res) {
     return res.success({ _id: invitationId, accepted });
   }
 
+  if (home.residents.some(resident => resident._id.equals(inviteeId))) {
+    return res.success({ _id: invitationId, accepted });
+  }
+
   const { result: updateHomeResult } = await db.homes.updateOne(
     { _id: invitation.homeId },
     { $push: { residents: { _id: inviteeId, owner: false } } }

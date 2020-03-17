@@ -2,7 +2,7 @@ const express = require("express");
 
 const { base } = require("./base");
 const { login } = require("./login");
-const { getDevice, getDevices, postDevice } = require("./devices");
+const { getDevice, getDevicesInHome, getDevicesInRoom, postDevice } = require("./devices");
 const { getHome, getHomes, postHome } = require("./homes");
 const { deleteInvitation, getInvitations, postInvitation, putInvitation } = require("./invitations");
 const { getRoom, getRooms, postRoom } = require("./rooms");
@@ -39,22 +39,23 @@ router.use(validation);
 
 // =========== PRIVATE ROUTES ==============
 
-router.get("/devices", getDevices);
 router.get("/devices/:deviceId", getDevice);
-router.post("/devices", postDevice);
 
 router.get("/homes", getHomes);
 router.get("/homes/:homeId", getHome);
+router.get("/homes/:homeId/devices", getDevicesInHome);
+router.get("/homes/:homeId/rooms", getRooms);
 router.post("/homes", postHome);
+router.post("/homes/:homeId/rooms", postRoom);
 
 router.delete("/invitations/:invitationId", deleteInvitation);
 router.get("/invitations", getInvitations);
 router.post("/invitations", postInvitation);
 router.put("/invitations/:invitationId", putInvitation);
 
-router.get("/homes/:homeId/rooms", getRooms);
 router.get("/rooms/:roomId", getRoom);
-router.post("/homes/:homeId/rooms", postRoom);
+router.get("/rooms/:roomId/devices", getDevicesInRoom);
+router.post("/rooms/:roomId/devices", postDevice);
 
 router.get("/users", permitAdmin, getUsers);
 router.get("/users/:userId", permitAdmin, getUser);

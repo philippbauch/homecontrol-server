@@ -1,9 +1,11 @@
 const { getDevice } = require("./getDevice");
-const { getDevices } = require("./getDevices");
+const { getDevicesInHome } = require("./getDevicesInHome");
+const { getDevicesInRoom } = require("./getDevicesInRoom");
 const { postDevice } = require("./postDevice");
 
 module.exports = {
   getDevice,
-  getDevices,
+  getDevicesInHome,
+  getDevicesInRoom,
   postDevice
 };
