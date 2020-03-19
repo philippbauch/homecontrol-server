@@ -2,7 +2,7 @@
 FROM node:12-alpine
 
 # Set the working directory for any subsequent RUN, CMD, ENTRYPOINT, COPY and ADD instructions. 
-WORKDIR /home
+WORKDIR /homecontrol
 
 # Copy files and directories from the current context into the image.
 # Files that are ignored by .dockerignore won't be copied to the image.
