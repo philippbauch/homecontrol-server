@@ -23,8 +23,7 @@ function errorHandler(error, req, res, next) {
 
   const response = formatResponse("error", payload);
 
-  res.json(response);
-  res.status(code);
+  res.status(code).json(response);
 }
 
 module.exports = { errorHandler };
