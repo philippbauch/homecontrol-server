@@ -29,7 +29,7 @@ const login = wrapAsync(async function(req, res) {
     throw new UserDoesntExistError();
   }
 
-  const { _id, hash, admin, locked } = user;
+  const { _id, hash, locked } = user;
 
   const equal = await bcrypt.compare(password, hash);
 
