@@ -22,6 +22,7 @@ services:
     volumes:
       - data:/data/db
   server:
+    build: .
     command: ["npm", "run", "develop"]
     container_name: homecontrol_server_${GIT_BRANCH}
     depends_on:
@@ -39,7 +40,7 @@ services:
       - "8080:8000"
     restart: always
     volumes:
-      - ./src:/home/src
+      - ./src:/homecontrol/src
 
 networks:
   backend:

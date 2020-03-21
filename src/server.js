@@ -30,6 +30,7 @@ const URL = `mongodb://${DB_HOST}:27017`;
     const password = "admin";
     const admin = true;
     const locked = false;
+    const preferences = {};
 
     const hash = await bcrypt.hash(password, 12);
 
@@ -37,7 +38,8 @@ const URL = `mongodb://${DB_HOST}:27017`;
       identifier,
       hash,
       admin,
-      locked
+      locked,
+      preferences
     });
 
     logger.info(`Created user with ID ${insertedId}`);

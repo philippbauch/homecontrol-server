@@ -22,6 +22,7 @@
     "express": "^4.17.1",
     "express-winston": "^4.0.2",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "mongodb": "^3.4.1",
     "mongodb-memory-server": "^6.2.3",

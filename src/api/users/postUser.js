@@ -41,12 +41,14 @@ const postUser = wrapAsync(async function(req, res) {
 
   const isAdmin = false;
   const isLocked = false;
+  const preferences = {};
 
   const { insertedId: _id } = await db.users.insertOne({
     identifier,
     hash,
     admin: isAdmin,
-    locked: isLocked
+    locked: isLocked,
+    preferences
   });
 
   res.success({ _id });
