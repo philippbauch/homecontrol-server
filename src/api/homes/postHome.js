@@ -20,12 +20,12 @@ const postHome = wrapAsync(async function(req, res) {
     owner: true
   };
 
-  const { insertedId: _id } = await db.homes.insertOne({
+  const { ops } = await db.homes.insertOne({
     name,
     residents: [resident]
   });
 
-  res.success({ _id });
+  res.success(ops[0]);
 }, CONTEXT);
 
 module.exports = { CONTEXT, postHome };
