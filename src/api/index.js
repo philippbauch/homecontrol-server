@@ -80,8 +80,6 @@ router.put("/users/:userId", putUser);
 router.put("/users/:userId/admin", permitAdmin, putUserAdmin);
 router.put("/users/:userId/locked", permitAdmin, putUserLocked);
 
-// =========================================
-
 router.use(unmatchedRoute);
 
 module.exports = router;
