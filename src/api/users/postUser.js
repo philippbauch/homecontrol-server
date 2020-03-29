@@ -1,26 +1,21 @@
 const bcrypt = require("bcrypt");
 const { db } = require("../../db");
 const {
-  InvalidIdentifierError,
   MissingRequiredFieldError,
   PasswordTooShortError,
   UserAlreadyExistsError
 } = require("../../errors");
-const { isAlphanumeric, wrapAsync } = require("../../utils");
+const { wrapAsync } = require("../../utils");
 
 const CONTEXT = "post_user";
 
 const SALT_ROUNDS = 12;
 
 const postUser = wrapAsync(async function(req, res) {
-  const { identifier, password } = req.body;
+  let { admin, identifier, password } = req.body;
 
   if (!identifier) {
     throw new MissingRequiredFieldError("identifier");
-  }
-
-  if (!isAlphanumeric(identifier)) {
-    throw new InvalidIdentifierError();
   }
 
   if (!password) {
@@ -31,6 +26,10 @@ const postUser = wrapAsync(async function(req, res) {
     throw new PasswordTooShortError();
   }
 
+  if (!admin) {
+    admin = false;
+  }
+
   const existingUser = await db.users.findOne({ identifier });
 
   if (existingUser) {
@@ -39,15 +38,14 @@ const postUser = wrapAsync(async function(req, res) {
 
   let hash = await bcrypt.hash(password, SALT_ROUNDS);
 
-  const isAdmin = false;
-  const isLocked = false;
+  const locked = false;
   const preferences = {};
 
   const { insertedId: _id } = await db.users.insertOne({
     identifier,
     hash,
-    admin: isAdmin,
-    locked: isLocked,
+    admin,
+    locked,
     preferences
   });
 

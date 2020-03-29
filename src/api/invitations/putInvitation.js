@@ -15,7 +15,7 @@ const putInvitation = wrapAsync(async function(req, res) {
   const { accepted } = req.body;
   const { _id: inviteeId } = req.user;
 
-  if (!accepted) {
+  if (typeof accepted === "undefined") {
     throw new MissingRequiredFieldError("accepted");
   }
 
