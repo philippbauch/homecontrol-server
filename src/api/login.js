@@ -49,7 +49,9 @@ const login = wrapAsync(async function(req, res) {
     throw new InternalError();
   }
 
-  return res.success({ _id, token });
+  delete user.hash;
+
+  return res.cookie("token", token, { httpOnly: true }).success({ _id, user });
 }, CONTEXT);
 
 module.exports = { CONTEXT, login };

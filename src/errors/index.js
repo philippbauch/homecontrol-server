@@ -13,6 +13,7 @@ const InvalidPayloadTypeError = require("./InvalidPayloadTypeError");
 const InvalidTimestampError = require("./InvalidTimestampError");
 const InvalidTokenError = require("./InvalidTokenError");
 const InvitationDoesntExistError = require("./InvitationDoesntExistError");
+const MissingCookieError = require("./MissingCookieError");
 const MissingHeaderError = require("./MissingHeaderError");
 const MissingParamError = require("./MissingParamError");
 const MissingRequiredFieldError = require("./MissingRequiredFieldError");
@@ -45,6 +46,7 @@ module.exports = {
   InvalidTimestampError,
   InvalidTokenError,
   InvitationDoesntExistError,
+  MissingCookieError,
   MissingHeaderError,
   MissingParamError,
   MissingRequiredFieldError,

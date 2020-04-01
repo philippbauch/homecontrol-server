@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const {
   InvalidPayloadTypeError,
   InvalidTokenError,
-  MissingHeaderError
+  MissingCookieError
 } = require("../errors");
 const { isObject, wrapAsync } = require("../utils");
 
@@ -19,16 +19,16 @@ const CONTEXT = "authentication";
  * @param {*} next Express.js Next function
  */
 const authentication = wrapAsync(async function(req, res, next) {
-  const { authentication } = req.headers;
+  const { token } = req.cookies;
 
-  if (!authentication) {
-    throw new MissingHeaderError("authentication");
+  if (!token) {
+    throw new MissingCookieError("token");
   }
 
   let payload;
 
   try {
-    payload = await jwt.verify(authentication, "secret");
+    payload = await jwt.verify(token, "secret");
   } catch (error) {
     throw new InvalidTokenError();
   }

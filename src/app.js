@@ -1,3 +1,4 @@
+const cookieParser = require('cookie-parser');
 const cors = require("cors");
 const express = require("express");
 const api = require("./api");
@@ -12,6 +13,9 @@ app.use(expressLogger);
 
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS.
 app.use(cors());
+
+// https://www.npmjs.com/package/cookie-parser
+app.use(cookieParser());
 
 // Express middleware that parses incoming requests with JSON payloads.
 app.use(express.json());
