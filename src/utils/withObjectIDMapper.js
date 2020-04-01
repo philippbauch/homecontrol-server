@@ -1,4 +1,5 @@
 const { ObjectID } = require("mongodb");
+const { isObject } = require("../utils/isObject");
 
 const CONTEXT = "map_params_to_object_id";
 
@@ -10,6 +11,11 @@ function mapObjectIDs(object) {
   for (let key of Object.keys(object)) {
     const value = object[key];
 
+    if (isObject(value)) {
+      mapObjectIDs(value);
+      continue;
+    }
+
     if (!shouldMapKey(key)) {
       continue;
     }
@@ -18,9 +24,7 @@ function mapObjectIDs(object) {
       throw new Error();
     }
 
-    const _id = ObjectID.createFromHexString(value);
-
-    object[key] = _id;
+    object[key] = ObjectID.createFromHexString(value);
   }
 }
 

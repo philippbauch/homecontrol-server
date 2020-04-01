@@ -31,7 +31,7 @@ const putUserLocked = wrapAsync(async function(req, res) {
     throw new InternalError();
   }
 
-  res.success({ _id: userId });
+  res.success({ _id: userId, locked });
 }, CONTEXT);
 
 module.exports = { CONTEXT, putUserLocked };

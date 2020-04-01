@@ -31,7 +31,7 @@ const putUserAdmin = wrapAsync(async function(req, res) {
     throw new InternalError();
   }
 
-  res.success({ _id: userId });
+  res.success({ _id: userId, admin });
 }, CONTEXT);
 
 module.exports = { CONTEXT, putUserAdmin };
