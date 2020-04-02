@@ -15,7 +15,8 @@ app.use(expressLogger);
 app.use(cors());
 
 // https://www.npmjs.com/package/cookie-parser
-app.use(cookieParser());
+// TODO: Manage secret securely
+app.use(cookieParser("secret"));
 
 // Express middleware that parses incoming requests with JSON payloads.
 app.use(express.json());

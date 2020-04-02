@@ -1,10 +1,7 @@
-const jwt = require("jsonwebtoken");
 const {
-  InvalidPayloadTypeError,
-  InvalidTokenError,
   MissingCookieError
 } = require("../errors");
-const { isObject, wrapAsync } = require("../utils");
+const { wrapAsync } = require("../utils");
 
 const CONTEXT = "authentication";
 
@@ -19,30 +16,14 @@ const CONTEXT = "authentication";
  * @param {*} next Express.js Next function
  */
 const authentication = wrapAsync(async function(req, res, next) {
-  const { token } = req.cookies;
+  const { token: _id } = req.signedCookies;
 
-  if (!token) {
+  if (!_id) {
     throw new MissingCookieError("token");
   }
 
-  let payload;
-
-  try {
-    payload = await jwt.verify(token, "secret");
-  } catch (error) {
-    throw new InvalidTokenError();
-  }
-
-  if (!isObject(payload)) {
-    throw new InvalidPayloadTypeError();
-  }
-
-  if (!payload._id) {
-    throw new InvalidTokenError();
-  }
-
   req.auth = {
-    userId: payload._id
+    userId: _id
   };
 
   next();

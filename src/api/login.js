@@ -1,9 +1,7 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const { db } = require("../db");
 const {
   IncorrectPasswordError,
-  InternalError,
   MissingRequiredFieldError,
   UserDoesntExistError,
   UserLockedError
@@ -41,17 +39,14 @@ const login = wrapAsync(async function(req, res) {
     throw new UserLockedError();
   }
 
-  const token = await jwt.sign({_id}, "secret", {
-    expiresIn: "1 days"
-  });
-
-  if (!token) {
-    throw new InternalError();
-  }
-
   delete user.hash;
 
-  return res.cookie("token", token, { httpOnly: true }).success({ _id, user });
+  return res
+    .cookie("token", _id, {
+      httpOnly: true,
+      maxAge: 86400000, // 1 day
+      signed: true })
+    .success({ user });
 }, CONTEXT);
 
 module.exports = { CONTEXT, login };
