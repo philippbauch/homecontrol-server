@@ -15,8 +15,6 @@ app.use(helmet());
 // Log each incoming HTTP request that is handled by express.
 app.use(expressLogger);
 
-console.log(ORIGIN);
-
 const corsOptions = {
   origin: ORIGIN,
   credentials:  true

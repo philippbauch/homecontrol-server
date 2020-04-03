@@ -3,6 +3,7 @@ const { db } = require("../db");
 const { SERVER_DOMAIN } = require("../environment");
 const {
   IncorrectPasswordError,
+  InternalError,
   MissingRequiredFieldError,
   UserDoesntExistError,
   UserLockedError
@@ -38,6 +39,15 @@ const CONTEXT = "login";
 
     if (locked) {
       throw new UserLockedError();
+    }
+
+    const { result } = await db.users.updateOne(
+      { _id },
+      { $set: { lastLogin: new Date() } }
+    );
+
+    if (!result.ok) {
+      throw new InternalError();
     }
 
     delete user.hash;
