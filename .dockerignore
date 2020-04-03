@@ -1,6 +1,7 @@
 **/*.log
 .dockerignore
 .eslintrc.json
+.idea
 .git
 .gitignore
 certs

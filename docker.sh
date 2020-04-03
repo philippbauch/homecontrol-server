@@ -2,9 +2,9 @@
 # environment for your local branch.
 
 # Validate the arguments
-if [[ "$#" -ne 1 || ! ("$1" == "start" || "$1" == "stop" || "$1" == "logs") ]]; then
+if [[ "$#" -ne 1 || ! ("$1" == "start" || "$1" == "stop" || "$1" == "logs" || "$1" == "build") ]]; then
 
-    echo "Usage: ./docker.sh start|stop|logs"
+    echo "Usage: ./docker.sh start|stop|logs|build"
     exit 0
 
 fi
@@ -30,10 +30,14 @@ if [[ "$1" == "start" ]]; then
 elif [[ "$1" == "stop" ]]; then
 
     echo "Stopping Docker Compose for branch ${GIT_BRANCH}"
-    docker-compose -f docker-compose.dev.yml down
+    docker-compose -f docker-compose.dev.yml down -v
 
 elif [[ "$1" == "logs" ]]; then
 
     docker logs -f homecontrol_server_"${GIT_BRANCH}"
+
+elif [[ "$1" == "build" ]]; then
+
+    docker build -t homecontrol_server_"${GIT_BRANCH}" .
 
 fi

@@ -2,6 +2,7 @@ const express = require("express");
 
 const { base } = require("./base");
 const { login } = require("./login");
+const { logout } = require("./logout");
 const {
   getDevice,
   getDevicesInHome,
@@ -47,6 +48,7 @@ router.get("/", base);
 router.use(timestamp);
 
 router.post("/login", login);
+router.post("/logout", logout);
 
 router.use(authentication);
 router.use(identification);

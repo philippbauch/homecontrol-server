@@ -8,6 +8,7 @@
   "main": "src/server.js",
   "scripts": {
     "develop": "nodemon",
+    "docker:build": "./docker.sh build",
     "docker:logs": "./docker.sh logs",
     "docker:start": "./docker.sh start",
     "docker:stop": "./docker.sh stop",
@@ -22,6 +23,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-winston": "^4.0.2",
+    "helmet": "^3.22.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "mongodb": "^3.4.1",
