@@ -3,7 +3,7 @@ const cors = require("cors");
 const express = require("express");
 const helmet = require("helmet");
 const api = require("./api");
-const { CLIENT_DOMAIN } = require("./environment");
+const { ORIGIN } = require("./environment");
 const { errorHandler, success } = require("./middleware");
 const { expressLogger } = require("./logger/express");
 
@@ -15,8 +15,10 @@ app.use(helmet());
 // Log each incoming HTTP request that is handled by express.
 app.use(expressLogger);
 
+console.log(ORIGIN);
+
 const corsOptions = {
-  origin: CLIENT_DOMAIN,
+  origin: ORIGIN,
   credentials:  true
 };
 

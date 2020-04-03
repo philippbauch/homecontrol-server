@@ -28,13 +28,13 @@ services:
     depends_on:
       - mongodb
     environment:
-      CLIENT_DOMAIN: "localhost"
       DB_HOST: "mongodb" # same as the mongodb service name
       DB_NAME: "home"
       DB_PASSWORD: "home"
       DB_PORT: "27017" # same as the mongodb service port
       DB_USER: "home"
-      SERVER_DOMAIN: "localhost"
+      HOST: "localhost"
+      ORIGIN: "http://localhost:3000"
     image: homecontrol_server:${GIT_BRANCH}
     networks:
       - backend

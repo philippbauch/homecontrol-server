@@ -6,7 +6,7 @@ const {
 
 let { DB_NAME, LOGS_DIR, PORT } = process.env;
 
-const { CLIENT_DOMAIN, DB_HOST, DB_PASSWORD, DB_USER, SERVER_DOMAIN } = process.env;
+const { DB_HOST, DB_PASSWORD, DB_USER, HOST, ORIGIN } = process.env;
 
 /** ************************************************************** **/
 /*                           Defaultables                           */
@@ -33,10 +33,6 @@ if (!PORT) {
 /*                         Non-Defaultables                         */
 /** ************************************************************** **/
 
-if (!CLIENT_DOMAIN) {
-  throw new Error("Missing environment variable CLIENT_DOMAIN");
-}
-
 if (!DB_HOST) {
   throw new Error("Missing environment variable DB_HOST");
 }
@@ -49,17 +45,21 @@ if (!DB_USER) {
   throw new Error("Missing environment variable DB_USER");
 }
 
-if (!SERVER_DOMAIN) {
-  throw new Error("Missing environment variable SERVER_DOMAIN");
+if (!HOST) {
+  throw new Error("Missing environment variable HOST");
+}
+
+if (!ORIGIN) {
+  throw new Error("Missing environment variable ORIGIN");
 }
 
 module.exports = {
-  CLIENT_DOMAIN,
   DB_HOST,
   DB_NAME,
   DB_PASSWORD,
   DB_USER,
+  HOST,
   LOGS_DIR,
-  PORT,
-  SERVER_DOMAIN
+  ORIGIN,
+  PORT
 };
