@@ -10,7 +10,7 @@ const {
   postDevice
 } = require("./devices");
 const { getHome, getHomes, postHome } = require("./homes");
-const { getIdentity } = require("./getIdentity");
+const { identity } = require("./identity");
 const {
   deleteInvitation,
   getInvitations,
@@ -63,7 +63,7 @@ router.get("/homes/:homeId/rooms", getRooms);
 router.post("/homes", postHome);
 router.post("/homes/:homeId/rooms", postRoom);
 
-router.get("/identity", getIdentity);
+router.get("/identity", identity);
 
 router.delete("/invitations/:invitationId", deleteInvitation);
 router.get("/invitations", getInvitations);

@@ -1,4 +1,5 @@
 const { db } = require("../../db");
+const { SERVER_DOMAIN } = require("../../environment");
 const {
   InternalError,
   PermissionDeniedError,
@@ -26,6 +27,14 @@ const deleteUser = wrapAsync(async function(req, res) {
 
   if (!result.ok) {
     throw new InternalError();
+  }
+
+  if (userId.equals(_id)) {
+    res.clearCookie("token", {
+      domain: SERVER_DOMAIN,
+      httpOnly: true,
+      signed: true
+    });
   }
 
   res.success({ _id: userId });
