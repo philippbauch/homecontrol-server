@@ -8,6 +8,7 @@ const {
   UserDoesntExistError
 } = require("../../errors");
 const { wrapAsync } = require("../../utils");
+const { ws } = require("../../ws");
 
 const CONTEXT = "post_invitation";
 
@@ -49,7 +50,7 @@ const postInvitation = wrapAsync(async function(req, res) {
     throw new PendingInvitationError();
   }
 
-  const { insertedId: _id } = await db.invitations.insertOne({
+  const { ops } = await db.invitations.insertOne({
     homeId,
     inviteeId: invitee._id,
     inviterId,
@@ -57,7 +58,11 @@ const postInvitation = wrapAsync(async function(req, res) {
     pending: true
   });
 
-  res.success({ _id });
+  const invitation = ops[0];
+
+  ws.findClient(invitee._id).sendInvitation(invitation);
+
+  res.success({ invitation });
 }, CONTEXT);
 
 module.exports = { CONTEXT, postInvitation };

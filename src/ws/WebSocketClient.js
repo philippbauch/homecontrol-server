@@ -1,5 +1,4 @@
 const { EventEmitter } = require("events");
-const { ObjectId } = require("mongodb");
 
 let CLIENT_IDENTIFIER = 0;
 
@@ -16,8 +15,8 @@ class WebSocketClient extends EventEmitter {
     this.socket = socket;
 
     if (socket) {
-      this.socket.onclose = this.handleClose;
-      this.socket.onmessage = this.handleMessage;
+      this.socket.onclose = this.handleClose.bind(this);
+      this.socket.onmessage = this.handleMessage.bind(this);
     }
   }
 
@@ -27,6 +26,11 @@ class WebSocketClient extends EventEmitter {
 
   handleMessage(event) {
     this.emit("message", event);
+  }
+
+  isSocketOpen() {
+    console.log(this.socket.readyState);
+    return this.socket.readyState === 1;
   }
 
   prepareMessage(type, data) {
@@ -39,7 +43,7 @@ class WebSocketClient extends EventEmitter {
   }
 
   send(type, data) {
-    if (!this.socket) {
+    if (!this.socket || !this.isSocketOpen()) {
       return;
     }
 
@@ -48,8 +52,8 @@ class WebSocketClient extends EventEmitter {
     this.socket.send(message);
   }
 
-  sendNotification(notification) {
-    this.send("notification", notification);
+  sendInvitation(invitation) {
+    this.send("invitation", invitation);
   }
 }
 

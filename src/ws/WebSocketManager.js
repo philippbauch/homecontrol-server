@@ -16,8 +16,8 @@ class WebSocketManager {
     return (socket) => {
       const client = new WebSocketClient(userId, socket);
 
-      client.on("close", this.handleClose);
-      client.on("message", this.handleMessage);
+      client.on("close", this.handleClose.bind(this));
+      client.on("message", this.handleMessage.bind(this));
 
       this.clients.push(client);
     }
@@ -34,15 +34,11 @@ class WebSocketManager {
   }
 
   handleClose(id) {
-    function handleClose() {
-      const index = this.clients.findIndex(client => client.id === id);
+    const index = this.clients.findIndex(client => client.id === id);
 
-      if (index !== -1) {
-        this.clients.splice(index, 1);
-      }
+    if (index !== -1) {
+      this.clients.splice(index, 1);
     }
-
-    return handleClose.bind(this);
   }
 
   handleError(error) {
