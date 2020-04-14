@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const http = require("http");
 const app = require("./app");
 const { db } = require("./db");
 const {
@@ -9,10 +10,15 @@ const {
   PORT
 } = require("./environment");
 const logger = require("./logger");
+const { ws } = require("./ws");
 
 const URL = `mongodb://${DB_HOST}:27017`;
 
 (async function() {
+  const server = http.createServer(app);
+
+  ws.attach(server);
+
   await db.connect(URL, DB_NAME, {
     auth: {
       user: DB_USER,
@@ -45,7 +51,7 @@ const URL = `mongodb://${DB_HOST}:27017`;
     logger.info(`Created user with ID ${insertedId}`);
   }
 
-  app.listen(PORT, () => {
+  server.listen(PORT, () => {
     logger.info(`Server listening on port ${PORT}`);
   });
 })();
