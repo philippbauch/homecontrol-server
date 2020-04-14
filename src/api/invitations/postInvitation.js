@@ -14,7 +14,7 @@ const CONTEXT = "post_invitation";
 
 const postInvitation = wrapAsync(async function(req, res) {
   const { homeId, inviteeIdentifier } = req.body;
-  const { _id: inviterId } = req.user;
+  const { _id: inviterId, identifier: inviterIdentifier  } = req.user;
 
   if (!homeId) {
     throw new MissingRequiredFieldError("homeId");
@@ -50,7 +50,7 @@ const postInvitation = wrapAsync(async function(req, res) {
     throw new PendingInvitationError();
   }
 
-  const { ops } = await db.invitations.insertOne({
+  const { insertedId: _id } = await db.invitations.insertOne({
     homeId,
     inviteeId: invitee._id,
     inviterId,
@@ -58,7 +58,21 @@ const postInvitation = wrapAsync(async function(req, res) {
     pending: true
   });
 
-  const invitation = ops[0];
+  const invitation = {
+    _id,
+    home: {
+      _id: home._id,
+      name: home.name
+    },
+    invitee: {
+      _id: invitee._id,
+      identifier: invitee.identifier
+    },
+    inviter: {
+      _id: inviterId,
+      identifier: inviterIdentifier
+    }
+  };
 
   ws.findClient(invitee._id).sendInvitation(invitation);
 
