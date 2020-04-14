@@ -1,5 +1,4 @@
 const express = require("express");
-
 const { base } = require("./base");
 const { login } = require("./login");
 const { logout } = require("./logout");
@@ -27,25 +26,20 @@ const {
   putUserAdmin,
   putUserLocked
 } = require("./users");
-
+const { websocket } = require("./websocket");
 const {
   authentication,
   identification,
   permitAdmin,
-  timestamp,
   unmatchedRoute,
   validation
 } = require("../middleware");
-
 const { withObjectIDMapper } = require("../utils");
 
 const router = new express.Router();
-
 withObjectIDMapper(router);
 
 router.get("/", base);
-
-router.use(timestamp);
 
 router.post("/login", login);
 router.post("/logout", logout);
@@ -53,6 +47,8 @@ router.post("/logout", logout);
 router.use(authentication);
 router.use(identification);
 router.use(validation);
+
+router.get("/ws", websocket);
 
 router.get("/devices/:deviceId", getDevice);
 

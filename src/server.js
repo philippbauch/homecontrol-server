@@ -17,7 +17,7 @@ const URL = `mongodb://${DB_HOST}:27017`;
 (async function() {
   const server = http.createServer(app);
 
-  ws.attach(server);
+  server.on("upgrade", ws.upgrade(app));
 
   await db.connect(URL, DB_NAME, {
     auth: {

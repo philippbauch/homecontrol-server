@@ -1,6 +1,7 @@
 const { db } = require("../../db");
 const { HomeDoesntExistError, PermissionDeniedError } = require("../../errors");
 const { wrapAsync } = require("../../utils");
+const { ws } = require("../../ws");
 
 const CONTEXT = "get_rooms";
 
