@@ -56,6 +56,8 @@ class WebSocketManager {
     }
 
     function handleUpgrade(req, socket, head) {
+      console.log(">>> Handle Upgrade");
+
       const res = new http.ServerResponse(req);
       res.assignSocket(socket);
 
@@ -67,6 +69,7 @@ class WebSocketManager {
       });
 
       function websocket(userId) {
+        console.log(">>> Now doing WebSocketServer handleUpgrade");
         this.server.handleUpgrade(req, socket, _head, this.connect(userId));
       }
 
