@@ -45,9 +45,8 @@ class WebSocketManager {
     logger.error(error.message);
   }
 
-  handleMessage(event) {
-    console.log(event);
-    logger.info("Received message");
+  handleMessage(userId, message) {
+    console.log(`User with id ${userId} sent ${message}`);
   }
 
   upgrade(app) {
