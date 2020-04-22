@@ -7,6 +7,8 @@ const { ORIGIN } = require("./environment");
 const { isObject } = require("./utils");
 
 function parseCookie(socket, next) {
+  console.log("First middleware");
+
   const { token: tokenRaw } = cookie.parse(socket.request.headers.cookie);
 
   if (!tokenRaw) {
