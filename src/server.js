@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const http = require("http");
 const app = require("./app");
-const { db } = require("./db");
+const db = require("./database");
 const {
   DB_HOST,
   DB_NAME,
@@ -10,14 +10,14 @@ const {
   PORT
 } = require("./environment");
 const logger = require("./logger");
-const { ws } = require("./ws");
+const ws = require("./websocket");
 
 const URL = `mongodb://${DB_HOST}:27017`;
 
 (async function() {
   const server = http.createServer(app);
 
-  server.on("upgrade", ws.upgrade(app));
+  ws.attach(server);
 
   await db.connect(URL, DB_NAME, {
     auth: {

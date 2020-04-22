@@ -38,6 +38,7 @@ elif [[ "$1" == "logs" ]]; then
 
 elif [[ "$1" == "build" ]]; then
 
-    docker build -t homecontrol_server_"${GIT_BRANCH}" .
+    echo "Building Docker container for branch ${GIT_BRANCH}"
+    docker build -t homecontrol_server:"${GIT_BRANCH}" .
 
 fi

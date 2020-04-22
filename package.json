@@ -1,9 +1,7 @@
 {
-  "name": "api.home.philippbauch.com",
+  "name": "homecontrol-server",
   "version": "1.0.0",
-  "description": "",
   "author": "Philipp Bauch",
-  "license": "ISC",
   "private": true,
   "main": "src/server.js",
   "scripts": {
@@ -19,6 +17,7 @@
   },
   "dependencies": {
     "bcrypt": "^3.0.7",
+    "cookie": "^0.4.0",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -28,8 +27,8 @@
     "moment": "^2.24.0",
     "mongodb": "^3.4.1",
     "mongodb-memory-server": "^6.2.3",
-    "winston": "^3.2.1",
-    "ws": "^7.2.3"
+    "socket.io": "^2.3.0",
+    "winston": "^3.2.1"
   },
   "devDependencies": {
     "eslint": "^6.8.0",

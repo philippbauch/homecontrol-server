@@ -1,4 +1,4 @@
-const { db } = require("../../db");
+const db = require("../../database");
 const { wrapAsync } = require("../../utils");
 
 const CONTEXT = "get_homes";

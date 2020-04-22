@@ -1,4 +1,4 @@
-const { db } = require("../../db");
+const db = require("../../database");
 const {
   HomeDoesntExistError,
   MissingRequiredFieldError,
@@ -8,7 +8,7 @@ const {
   UserDoesntExistError
 } = require("../../errors");
 const { wrapAsync } = require("../../utils");
-const { ws } = require("../../ws");
+const ws = require("../../websocket");
 
 const CONTEXT = "post_invitation";
 
@@ -74,7 +74,7 @@ const postInvitation = wrapAsync(async function(req, res) {
     }
   };
 
-  ws.findClient(invitee._id).sendInvitation(invitation);
+  ws.to(invitee._id).emit("invitation", invitation);
 
   res.success({ invitation });
 }, CONTEXT);

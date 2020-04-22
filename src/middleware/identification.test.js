@@ -1,6 +1,6 @@
 const { ObjectID } = require("mongodb");
 const { identification } = require("./identification");
-const { db } = require("../db");
+const db = require("../database");
 const RequestBuilder = require("../../test/RequestBuilder");
 const ResponseBuilder = require("../../test/ResponseBuilder");
 

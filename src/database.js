@@ -1,7 +1,7 @@
 const { MongoClient } = require("mongodb");
 const { MongoMemoryServer } = require("mongodb-memory-server");
 
-class DatabaseManager {
+class Database {
   get devices() {
     if (!this.db) {
       throw new Error("No connection to the database");
@@ -105,4 +105,4 @@ class DatabaseManager {
   }
 }
 
-module.exports = DatabaseManager;
+module.exports = new Database();

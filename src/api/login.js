@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { db } = require("../db");
+const db = require("../database");
 const { SERVER_DOMAIN } = require("../environment");
 const {
   IncorrectPasswordError,

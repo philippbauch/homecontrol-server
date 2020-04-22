@@ -1,5 +1,5 @@
 const { ObjectID } = require("mongodb");
-const { db } = require("../db");
+const db = require("../database");
 const { InternalError, InvalidObjectIdError, UnknownUserError } = require("../errors");
 const { wrapAsync } = require("../utils");
 

@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
-const { db } = require("../../db");
+const db = require("../../database");
 const {
   HomeDoesntExistError,
   IncorrectPasswordError,

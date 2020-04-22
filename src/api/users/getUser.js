@@ -1,4 +1,4 @@
-const { db } = require("../../db");
+const db = require("../../database");
 const { UserDoesntExistError } = require("../../errors");
 const { wrapAsync } = require("../../utils");
 
