@@ -26,7 +26,6 @@ const {
   putUserAdmin,
   putUserLocked
 } = require("./users");
-const { websocket } = require("./websocket");
 const {
   authentication,
   identification,
@@ -47,8 +46,6 @@ router.post("/logout", logout);
 router.use(authentication);
 router.use(identification);
 router.use(validation);
-
-router.get("/ws", websocket);
 
 router.get("/devices/:deviceId", getDevice);
 
