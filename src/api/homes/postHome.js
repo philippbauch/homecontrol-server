@@ -1,6 +1,5 @@
 const db = require("../../database");
 const {
-  HomeAlreadyExistsError,
   MissingRequiredFieldError
 } = require("../../errors");
 const { wrapAsync } = require("../../utils");
@@ -9,7 +8,7 @@ const CONTEXT = "post_home";
 
 const postHome = wrapAsync(async function(req, res) {
   const { name } = req.body;
-  const { _id: userId } = req.user;
+  const { _id: userId, identifier } = req.user;
 
   if (!name) {
     throw new MissingRequiredFieldError("name");
@@ -25,7 +24,11 @@ const postHome = wrapAsync(async function(req, res) {
     residents: [resident]
   });
 
-  res.success(ops[0]);
+  const home = ops[0];
+
+  home.residents[0].identifier = identifier;
+
+  res.success(home);
 }, CONTEXT);
 
 module.exports = { CONTEXT, postHome };
