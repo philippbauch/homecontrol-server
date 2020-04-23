@@ -58,7 +58,7 @@ function validateUser(socket, next) {
 
 class WebSocket {
   constructor() {
-    this.io = new Server({ origins: ORIGIN });
+    this.io = new Server(/* { origins: ORIGIN } */);
 
     this.io.use(parseCookie);
     this.io.use(validateCookie);
