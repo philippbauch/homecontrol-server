@@ -13,6 +13,7 @@ const { identity } = require("./identity");
 const {
   deleteInvitation,
   getInvitations,
+  getInvitationsToHome,
   postInvitation,
   putInvitation
 } = require("./invitations");
@@ -51,6 +52,7 @@ router.get("/devices/:deviceId", getDevice);
 
 router.get("/homes", getHomes);
 router.get("/homes/:homeId/devices", getDevicesInHome);
+router.get("/homes/:homeId/invitations", getInvitationsToHome);
 router.get("/homes/:homeId/rooms", getRooms);
 router.post("/homes", postHome);
 router.post("/homes/:homeId/rooms", postRoom);
