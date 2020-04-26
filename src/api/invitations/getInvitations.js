@@ -48,6 +48,8 @@ const getInvitations = wrapAsync(async function(req, res) {
     },
     {
       $project: {
+        accepted: 1,
+        pending: 1,
         home: {
           _id: "$home._id",
           name: "$home.name",

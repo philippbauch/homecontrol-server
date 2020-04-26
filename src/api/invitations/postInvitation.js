@@ -50,16 +50,21 @@ const postInvitation = wrapAsync(async function(req, res) {
     throw new PendingInvitationError();
   }
 
+  const accepted = false;
+  const pending = true;
+
   const { insertedId: _id } = await db.invitations.insertOne({
     homeId,
     inviteeId: invitee._id,
     inviterId,
-    accepted: false,
-    pending: true
+    accepted,
+    pending
   });
 
   const invitation = {
     _id,
+    accepted,
+    pending,
     home: {
       _id: home._id,
       name: home.name
