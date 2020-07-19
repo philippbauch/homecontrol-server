@@ -23,7 +23,7 @@
     "express": "^4.17.1",
     "express-winston": "^4.0.2",
     "helmet": "^3.22.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "mongodb": "^3.4.1",
     "mongodb-memory-server": "^6.2.3",
