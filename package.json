@@ -27,7 +27,7 @@
     "moment": "^2.24.0",
     "mongodb": "^3.4.1",
     "mongodb-memory-server": "^6.2.3",
-    "socket.io": "^2.3.0",
+    "socket.io": "^2.4.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
